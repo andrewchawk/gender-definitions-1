@@ -158,6 +158,11 @@ Again, at the risk of sounding a bit formal, one can say that for all \AgdaRecor
   \item \AgdaInductiveConstructor{nothing} is the \AgdaRecord{AbstractGender} for \(x\) if and only if \(x\) is agender.
 \end{itemize}
 
+\subsection{Flaws}
+This approach inherits the \(n\)-gender \gls{gEntity} flaws of \AgdaRecord{Attempt1.Gender}, where \(n > 1\).
+
+Also, this approach inherits all of the issues which are inherent in the use of \AgdaPostulate{String}; ultimately, \AgdaFunction{AbstractGender} uses \AgdaPostulate{String} for gender representation.
+
 \printbibliography{}
 
 \newglossaryentry{gEntity}
