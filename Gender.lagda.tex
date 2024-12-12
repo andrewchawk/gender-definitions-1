@@ -70,6 +70,15 @@
 This paper presents \st{a type-theoretical definition of gender} type-theoretical definitions of some gender-related things, e.g., abstract gender.  The author hopes that such terms will be of interest to the reader instead of, God forbid,\footnote{As a deranged mathematician, the author is bound by solemn obligation to hate any and all applications of the author's work.  xo'o cau'i} actually being of some degree of use.
 \end{abstract}
 
+\section{Goal}
+In this paper, the author tries to use Agda to define a gender identity type \(G\) such that the following conditions hold:
+
+\begin{enumerate}
+  \item \(G\) can be used to represent every gender identity.
+  \item For all gender identities \(g_1\) and \(g_2\), if \(g_1\) meaningfully differs from \(g_2\), then \(G\)'s representation of \(g_1\) is meaningfully different from \(G\)'s representation of \(g_2\).\label{enum:specRuleRepresentationDifference}
+\end{enumerate}
+
+
 \section{Miscellaneous Stuff}
 
 \subsection{Stuff for Agda}
@@ -192,8 +201,18 @@ Semantically, one can say that the \AgdaFunction{AbstractGender} of a given \gls
 Some flaws of this new approach are as follows:
 
 \begin{enumerate}
-  \item \AgdaFunction{AbstractGender} fails to explicitly distinguish between genderfluid identities and polygender identities.
+  \item \hyperref[sec:gender3DistinctionFailure]{\AgdaFunction{AbstractGender} fails to explicitly distinguish between genderfluid identities and polygender identities.}
 \end{enumerate}
+
+\paragraph{Genderfluid-Polygender Distinction Failure}\label{sec:gender3DistinctionFailure}
+\AgdaFunction{AbstractGender} does not particularly well facilitate distinguishing between genderfluid identities and polygender identities.  The naive approach for representing a polygender identity with \AgdaFunction{AbstractGender} is the listing of the appropriate genders; similarly, the naive approach for representing a genderfluid identity is the listing of the appropriate genders; but, per this approach, given a polygender identity \(p\) and a genderfluid identity \(g\), if the genders of \(p\) are the genders of \(g\), then the naive \AgdaFunction{AbstractGender} representation of \(p\) is equivalent to the naive \AgdaFunction{AbstractGender} representation of \(g\).  This situation is Bad News; there exist a polygender identity \(p\) and a genderfluid identity \(f\) such that the following conditions hold:
+
+\begin{enumerate}
+  \item The genders of \(p\) are the genders of \(f\).
+  \item \(p\) meaningfully differs from \(f\).
+\end{enumerate}
+
+Accordingly, one can rightfully conclude that \AgdaFunction{AbstractGender} is in violation of \fref{enum:specRuleRepresentationDifference} and, therefore, is not a good solution.
 
 \printbibliography{}
 
