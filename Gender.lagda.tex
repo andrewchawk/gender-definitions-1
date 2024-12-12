@@ -70,9 +70,19 @@
 This paper presents \st{a type-theoretical definition of gender} type-theoretical definitions of some gender-related things, e.g., abstract gender.  The author hopes that such terms will be of interest to the reader instead of, God forbid,\footnote{As a deranged mathematician, the author is bound by solemn obligation to hate any and all applications of the author's work.  xo'o cau'i} actually being of some degree of use.
 \end{abstract}
 
-\section{Recommended Reading}
+\section{Miscellaneous Stuff}
 
-\subsection{The Agda Standard Library}
+\subsection{Stuff for Agda}
+
+\paragraph{The Module Header}
+This whole document constitutes an Agda module.  Specifically, the module is \AgdaModule{Gender}, per the following declaration:
+
+\begin{code}
+module Gender where
+\end{code}
+
+\paragraph{Recommended Reading}
+\subparagraph{The Agda Standard Library}
 This document makes use of some parts of \textcite{agdaStdlib}.  A brief overview of the parts which are used is as follows:
 
 \begin{code}
@@ -83,21 +93,26 @@ open import Data.String
 \end{code}
 
 \section{A Particularly Simple Definition}
-Simply, one can define a gender type \AgdaRecord{Gender1} as follows:
 
 \begin{code}
-record Gender1 : Set where
-  field
-    selfDescription : String
+module Attempt1 where
 \end{code}
 
-At the risk of sounding a bit formal, one can say that \AgdaRecord{Gender1} is such that for all \glspl{gEntity} \(x\) and terms \AgdaBound{g} of type \AgdaRecord{Gender1}, \AgdaBound{g} is the gender of \(x\) if and only if \(x\)'s description of \(x\)'s gender is \AgdaRecord{Gender1.selfDescription} \AgdaBound{g}.  However, as indicated by the mere \emph{existence} of \fref{sec:gender1flaws}, \AgdaRecord{Gender1} is flawed.
+Simply, one can define a gender type \AgdaRecord{Gender} as follows:
+
+\begin{code}
+  record Gender : Set where
+    field
+      selfDescription : String
+\end{code}
+
+At the risk of sounding a bit formal, one can say that \AgdaRecord{Gender} is such that for all \glspl{gEntity} \(x\) and terms \AgdaBound{g} of type \AgdaRecord{Gender}, \AgdaBound{g} is the gender of \(x\) if and only if \(x\)'s description of \(x\)'s gender is \AgdaRecord{Gender.selfDescription} \AgdaBound{g}.  However, as indicated by the mere \emph{existence} of \fref{sec:gender1flaws}, \AgdaRecord{Gender} is flawed.
 
 \subsection{Flaws}\label{sec:gender1flaws}
-Essentially, the flaws of \AgdaRecord{Gender1} are as follows:
+Essentially, the flaws of \AgdaRecord{Gender} are as follows:
 
 \begin{enumerate}
-  \item \hyperref[sec:gender1non1gender]{\AgdaRecord{Gender1} sucks for agender \glspl{gEntity}\ldots{}\label{enum:gender1agender}}
+  \item \hyperref[sec:gender1non1gender]{\AgdaRecord{Gender} sucks for agender \glspl{gEntity}\ldots{}\label{enum:gender1agender}}
   \begin{itemize}
     \item \hyperref[sec:gender1non1gender]{\ldots and bigender \glspl{gEntity}, trigender \glspl{gEntity}, and, generally, \(n\)-gender \glspl{gEntity}, where \(n \neq 1\).}
   \end{itemize}
@@ -106,14 +121,14 @@ Essentially, the flaws of \AgdaRecord{Gender1} are as follows:
 \end{enumerate}
 
 \paragraph{\ecapitalisewords{\glspl{gEntity}} whose Gender Count Is Not One}\label{sec:gender1non1gender}
-Basically, \AgdaRecord{Gender1} is unsuitable for \glspl{gEntity} who are agender, bigender, trigender, or such; using \AgdaRecord{Gender1} to represent gender identities only directly accommodates \glspl{gEntity} who have exactly \emph{one} gender.
+Basically, \AgdaRecord{Gender} is unsuitable for \glspl{gEntity} who are agender, bigender, trigender, or such; using \AgdaRecord{Gender} to represent gender identities only directly accommodates \glspl{gEntity} who have exactly \emph{one} gender.
 \subparagraph{Agender Support}
-As stated in \fref{enum:gender1agender}, \AgdaRecord{Gender1} does not accommodate agender \glspl{gEntity}; such \glspl{gEntity} are likely to say that,\cite{healthline-agender}\cite{lgbtqia-wiki-agender} per the name, which essentially means ``without gender'',\cite{lgbtqia-wiki-agender} agender \glspl{gEntity} lack genders and, therefore, descriptions of such genders; accordingly, one can conclude that \AgdaRecord{Gender1}, which depends upon gender self-descriptions, is unsuitable for use with agender \glspl{gEntity}.
+As stated in \fref{enum:gender1agender}, \AgdaRecord{Gender} does not accommodate agender \glspl{gEntity}; such \glspl{gEntity} are likely to say that,\cite{healthline-agender}\cite{lgbtqia-wiki-agender} per the name, which essentially means ``without gender'',\cite{lgbtqia-wiki-agender} agender \glspl{gEntity} lack genders and, therefore, descriptions of such genders; accordingly, one can conclude that \AgdaRecord{Gender}, which depends upon gender self-descriptions, is unsuitable for use with agender \glspl{gEntity}.
 \subparagraph{\(n\)-Gender Support}
-For similar reasons, \AgdaRecord{Gender1} is all but incompatible with bigender \glspl{gEntity} and such; although \AgdaRecord{Gender1} \emph{does} \emph{technically} support the selection of multiple genders through comma-separated lists and such, the author finds that such second-class support is unfair and, therefore, unsuitable.  Also, like agender \glspl{gEntity}, an \(n\)-gender \gls{gEntity} \(e\), where \(n > 1\), may say that the gender identity of \(e\) is a combination of genders but \emph{is not actually a gender}, as bigender \glspl{gEntity} and such have multiple genders, not just a single gender;\cite{nonbinaryWikiBigender} in this case, the simple \AgdaRecord{Gender1} approach is outright unsuitable.
+For similar reasons, \AgdaRecord{Gender} is all but incompatible with bigender \glspl{gEntity} and such; although \AgdaRecord{Gender} \emph{does} \emph{technically} support the selection of multiple genders through comma-separated lists and such, the author finds that such second-class support is unfair and, therefore, unsuitable.  Also, like agender \glspl{gEntity}, an \(n\)-gender \gls{gEntity} \(e\), where \(n > 1\), may say that the gender identity of \(e\) is a combination of genders but \emph{is not actually a gender}, as bigender \glspl{gEntity} and such have multiple genders, not just a single gender;\cite{nonbinaryWikiBigender} in this case, the simple \AgdaRecord{Gender} approach is outright unsuitable.
 
 \paragraph{Vagueness}\label{sec:gender1vagueness}
-The author thinks that \AgdaRecord{Gender1}'s \AgdaPostulate{String} approach \emph{may} be excessively vague, as this \AgdaPostulate{String} approach permits saying that the truncated output of \texttt{/dev/urandom} is a gender self-description.  However, the author acknowledges that gender self-descriptions can vary wildly and that specifically enumerating every gender is infeasible; similarly, the author is unaware of a good function \AgdaFunction{IsValidGenderSelfDescription} \AgdaSymbol{:} \AgdaPostulate{String} \AgdaSymbol{→} \AgdaPostulate{Set}.
+The author thinks that \AgdaRecord{Gender}'s \AgdaPostulate{String} approach \emph{may} be excessively vague, as this \AgdaPostulate{String} approach permits saying that the truncated output of \texttt{/dev/urandom} is a gender self-description.  However, the author acknowledges that gender self-descriptions can vary wildly and that specifically enumerating every gender is infeasible; similarly, the author is unaware of a good function \AgdaFunction{IsValidGenderSelfDescription} \AgdaSymbol{:} \AgdaPostulate{String} \AgdaSymbol{→} \AgdaPostulate{Set}.
 
 \printbibliography{}
 
