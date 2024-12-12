@@ -15,6 +15,7 @@
 \usepackage{hyperref}
 \usepackage{adjustbox}
 \usepackage{soul}
+\usepackage{mfirstuc}
 
 \addbibresource{citationNeeded.bib}
 
@@ -54,6 +55,8 @@
 
 \newcommand{\category}[1]{\mathsf{#1}}
 
+\MFUhyphentrue{}
+
 \title{On Gender \&c.}
 \author{la zungi no'u la nakni no'u la\ .ax.}
 
@@ -87,26 +90,34 @@ record Gender1 : Set where
     selfDescription : String
 \end{code}
 
-At the risk of sounding a bit formal, one can say that \AgdaRecord{Gender1} is such that for all possibly-gender-having entities \(x\) and terms \AgdaBound{g} of type \AgdaRecord{Gender1}, \AgdaBound{g} is the gender of \(x\) if and only if \(x\)'s description of \(x\)'s gender is \AgdaRecord{Gender1.selfDescription} \AgdaBound{g}.  However, as indicated by the mere \emph{existence} of \fref{sec:gender1flaws}, \AgdaRecord{Gender1} is flawed.
+At the risk of sounding a bit formal, one can say that \AgdaRecord{Gender1} is such that for all \glspl{gEntity} \(x\) and terms \AgdaBound{g} of type \AgdaRecord{Gender1}, \AgdaBound{g} is the gender of \(x\) if and only if \(x\)'s description of \(x\)'s gender is \AgdaRecord{Gender1.selfDescription} \AgdaBound{g}.  However, as indicated by the mere \emph{existence} of \fref{sec:gender1flaws}, \AgdaRecord{Gender1} is flawed.
 
 \subsection{Flaws}\label{sec:gender1flaws}
 Essentially, the flaws of \AgdaRecord{Gender1} are as follows:
 
 \begin{enumerate}
-  \item \AgdaRecord{Gender1} sucks for agender entities\ldots{}\label{enum:gender1agender}
+  \item \AgdaRecord{Gender1} sucks for agender \glspl{gEntity}\ldots{}\label{enum:gender1agender}
   \begin{itemize}
-    \item \ldots and bigender entities, trigender entities, and, generally, \(n\)-gender entities, where \(n \neq 1\).
+    \item \ldots and bigender \glspl{gEntity}, trigender \glspl{gEntity}, and, generally, \(n\)-gender \glspl{gEntity}, where \(n \neq 1\).
   \end{itemize}
   \item \AgdaRecord{String} \emph{might} be a bit too vague.
   \item \AgdaRecord{String} does not facilitate the equality comparison of genders.
 \end{enumerate}
 
-\paragraph{Entities whose Gender Count Is Not One}
+\paragraph{\ecapitalisewords{\glspl{gEntity}} whose Gender Count Is Not One}
 \subparagraph{Agender Support}
-As stated in \fref{enum:gender1agender}, \AgdaRecord{Gender1} does not accommodate agender entities; such entities are likely to say that,\cite{healthline-agender}\cite{lgbtqia-wiki-agender} per the name, which essentially means ``without gender'',\cite{lgbtqia-wiki-agender} agender entities lack genders and, therefore, descriptions of such genders; accordingly, one can conclude that \AgdaRecord{Gender1}, which depends upon gender self-descriptions, is unsuitable for use with agender entities.
+As stated in \fref{enum:gender1agender}, \AgdaRecord{Gender1} does not accommodate agender \glspl{gEntity}; such \glspl{gEntity} are likely to say that,\cite{healthline-agender}\cite{lgbtqia-wiki-agender} per the name, which essentially means ``without gender'',\cite{lgbtqia-wiki-agender} agender \glspl{gEntity} lack genders and, therefore, descriptions of such genders; accordingly, one can conclude that \AgdaRecord{Gender1}, which depends upon gender self-descriptions, is unsuitable for use with agender \glspl{gEntity}.
 
 \subparagraph{\(n\)-Gender Support}
-For similar reasons, \AgdaRecord{Gender1} is all but incompatible with bigender entities and such; although \AgdaRecord{Gender1} \emph{does} \emph{technically} support the selection of multiple genders through comma-separated lists and such, the author finds that such second-class support is unfair and, therefore, unsuitable.  Also, like agender entities, an \(n\)-gender entity \(e\) where \(n > 1\), may say that the gender identity of \(e\) is a combination of genders but \emph{is not actually a gender}; in this case, the simple \AgdaRecord{Gender1} approach is outright unsuitable.
+For similar reasons, \AgdaRecord{Gender1} is all but incompatible with bigender \glspl{gEntity} and such; although \AgdaRecord{Gender1} \emph{does} \emph{technically} support the selection of multiple genders through comma-separated lists and such, the author finds that such second-class support is unfair and, therefore, unsuitable.  Also, like agender \glspl{gEntity}, an \(n\)-gender \gls{gEntity} \(e\), where \(n > 1\), may say that the gender identity of \(e\) is a combination of genders but \emph{is not actually a gender}; in this case, the simple \AgdaRecord{Gender1} approach is outright unsuitable.
 
 \printbibliography{}
+
+\newglossaryentry{gEntity}
+  { name = {G-entity}
+  , plural = {G-entities}
+  , description = Being a G-entity is materially equivalent to being something which could have a gender
+  }
+
+\printglossary{}
 \end{document}
