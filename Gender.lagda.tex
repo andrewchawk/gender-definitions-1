@@ -101,8 +101,8 @@ Essentially, the flaws of \AgdaRecord{Gender1} are as follows:
   \begin{itemize}
     \item \hyperref[sec:gender1non1gender]{\ldots and bigender \glspl{gEntity}, trigender \glspl{gEntity}, and, generally, \(n\)-gender \glspl{gEntity}, where \(n \neq 1\).}
   \end{itemize}
-  \item \AgdaRecord{String} \emph{might} be a bit too vague.
-  \item \AgdaRecord{String} does not facilitate the equality comparison of genders.
+  \item \hyperref[sec:gender1vagueness]{\AgdaPostulate{String} \emph{might} be a bit too vague.}
+  \item \AgdaPostulate{String} does not facilitate the equality comparison of genders.
 \end{enumerate}
 
 \paragraph{\ecapitalisewords{\glspl{gEntity}} whose Gender Count Is Not One}\label{sec:gender1non1gender}
@@ -111,6 +111,9 @@ Basically, \AgdaRecord{Gender1} is unsuitable for \glspl{gEntity} who are agende
 As stated in \fref{enum:gender1agender}, \AgdaRecord{Gender1} does not accommodate agender \glspl{gEntity}; such \glspl{gEntity} are likely to say that,\cite{healthline-agender}\cite{lgbtqia-wiki-agender} per the name, which essentially means ``without gender'',\cite{lgbtqia-wiki-agender} agender \glspl{gEntity} lack genders and, therefore, descriptions of such genders; accordingly, one can conclude that \AgdaRecord{Gender1}, which depends upon gender self-descriptions, is unsuitable for use with agender \glspl{gEntity}.
 \subparagraph{\(n\)-Gender Support}
 For similar reasons, \AgdaRecord{Gender1} is all but incompatible with bigender \glspl{gEntity} and such; although \AgdaRecord{Gender1} \emph{does} \emph{technically} support the selection of multiple genders through comma-separated lists and such, the author finds that such second-class support is unfair and, therefore, unsuitable.  Also, like agender \glspl{gEntity}, an \(n\)-gender \gls{gEntity} \(e\), where \(n > 1\), may say that the gender identity of \(e\) is a combination of genders but \emph{is not actually a gender}, as bigender \glspl{gEntity} and such have multiple genders, not just a single gender;\cite{nonbinaryWikiBigender} in this case, the simple \AgdaRecord{Gender1} approach is outright unsuitable.
+
+\paragraph{Vagueness}\label{sec:gender1vagueness}
+The author thinks that \AgdaRecord{Gender1}'s \AgdaPostulate{String} approach \emph{may} be excessively vague, as this \AgdaPostulate{String} approach permits saying that the truncated output of \texttt{/dev/urandom} is a gender self-description.  However, the author acknowledges that gender self-descriptions can vary wildly and that specifically enumerating every gender is infeasible; similarly, the author is unaware of a good function \AgdaFunction{IsValidGenderSelfDescription} \AgdaSymbol{:} \AgdaPostulate{String} \AgdaSymbol{→} \AgdaPostulate{Set}.
 
 \printbibliography{}
 
