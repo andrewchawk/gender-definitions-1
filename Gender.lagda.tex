@@ -1,0 +1,96 @@
+\documentclass{article}
+
+\usepackage{newunicodechar}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{parskip}
+% The coloring distracts the author.
+\usepackage[bw]{agda}
+\usepackage{unicode-math}
+\usepackage{physics}
+\usepackage{fancyref}
+\usepackage[toc]{glossaries}
+\usepackage[backend=bibtex]{biblatex}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{adjustbox}
+\usepackage{soul}
+
+\addbibresource{citationNeeded.bib}
+
+% What is a good place for this crap?
+\newunicodechar{⊤}{\ensuremath{\mathnormal{\top}}}
+\newunicodechar{⊥}{\ensuremath{\mathnormal{\bot}}}
+\newunicodechar{ℕ}{\ensuremath{\mathnormal{\mathbb{N}}}}
+\newunicodechar{₁}{\ensuremath{\mathnormal{_1}}}
+\newunicodechar{₂}{\ensuremath{\mathnormal{_2}}}
+\newunicodechar{≅}{\ensuremath{\mathnormal{\cong}}}
+\newunicodechar{ε}{\ensuremath{\mathnormal{\epsilon}}}
+\newunicodechar{τ}{\ensuremath{\mathnormal{\tau}}}
+\newunicodechar{λ}{\ensuremath{\mathnormal{\lambda}}}
+\newunicodechar{ℚ}{\ensuremath{\mathnormal{\mathbb{Q}}}}
+\newunicodechar{ℤ}{\ensuremath{\mathnormal{\mathbb{Z}}}}
+\newunicodechar{∷}{\ensuremath{\mathnormal{\Colon}}}
+\newunicodechar{⊎}{\ensuremath{\mathnormal{\uplus}}}
+\newunicodechar{≈}{\ensuremath{\mathnormal{\approx}}}
+\newunicodechar{≉}{\ensuremath{\mathnormal{\napprox}}}
+\newunicodechar{≡}{\ensuremath{\mathnormal{\equiv}}}
+\newunicodechar{≢}{\ensuremath{\mathnormal{\nequiv}}}
+\newunicodechar{≤}{\ensuremath{\mathnormal{\leq}}}
+\newunicodechar{⊔}{\ensuremath{\mathnormal{\sqcup}}}
+\newunicodechar{≟}{\ensuremath{\mathnormal{\stackrel{?}{=}}}}
+\newunicodechar{∘}{\ensuremath{\mathnormal{\circ}}}
+\newunicodechar{∧}{\ensuremath{\mathnormal{\land}}}
+\newunicodechar{∧}{\ensuremath{\mathnormal{\land}}}
+\newunicodechar{⇒}{\ensuremath{\mathnormal{\Rightarrow}}}
+\newunicodechar{⟨}{\ensuremath{\mathnormal{\langle}}}
+\newunicodechar{⟩}{\ensuremath{\mathnormal{\rangle}}}
+\newunicodechar{∎}{\ensuremath{\mathnormal{\blacksquare}}}
+\newunicodechar{∈}{\ensuremath{\mathnormal{\in}}}
+\newunicodechar{∉}{\ensuremath{\mathnormal{\notin}}}
+\newunicodechar{ᵇ}{\ensuremath{\mathnormal{^\AgdaFontStyle{b}}}}
+\newunicodechar{∣}{\ensuremath{\mathnormal{\lvert}}}
+\newunicodechar{↭}{\ensuremath{\mathnormal{\leftrightsquigarrow}}}
+
+\newcommand{\category}[1]{\mathsf{#1}}
+
+\title{On Gender \&c.}
+\author{la zungi no'u la nakni no'u la\ .ax.}
+
+\makeglossaries{}
+
+\begin{document}
+\maketitle{}
+
+\begin{abstract}
+This paper presents a type-theoretical definition of \st{gender} some gender-related things, e.g., ``abstract gender''.  The author hopes that such terms will be of interest to the reader instead of, God forbid,\footnote{As a deranged mathematician, the author is bound by solemn obligation to hate any and all applications of the author's work.  xo'o cau'i} actually being of some degree of use.
+\end{abstract}
+
+\section{Recommended Reading}
+
+\subsection{The Agda Standard Library}
+This document makes use of some parts of \textcite{agdaStdlib}.  A brief overview of the parts which are used is as follows:
+
+\begin{code}
+open import Data.String
+  using
+    ( String
+    )
+\end{code}
+
+\section{A Particularly Simple Definition}
+
+Simply, one can define a gender type \AgdaRecord{Gender1} as follows:
+
+\begin{code}
+record Gender1 : Set where
+  field
+    selfDescription : String
+\end{code}
+
+At the risk of sounding a bit formal, one can say that \AgdaRecord{Gender1} is such that for all possibly-gender-having entities \(x\) and terms \AgdaBound{g} of type \AgdaRecord{Gender1}, \AgdaBound{g} is the gender of \(x\) if and only if \(x\)'s description of \(x\)'s gender is \AgdaRecord{Gender1.selfDescription} \AgdaBound{g}.
+
+% TODO: Explain flaw.
+
+\printbibliography{}
+\end{document}
