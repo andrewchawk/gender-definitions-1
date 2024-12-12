@@ -90,6 +90,10 @@ open import Data.String
   using
     ( String
     )
+open import Data.Maybe
+  using
+    ( Maybe
+    )
 \end{code}
 
 \section{A Particularly Simple Definition}
@@ -129,6 +133,30 @@ For similar reasons, \AgdaRecord{Gender} is all but incompatible with bigender \
 
 \paragraph{Vagueness}\label{sec:gender1vagueness}
 The author thinks that \AgdaRecord{Gender}'s \AgdaPostulate{String} approach \emph{may} be excessively vague, as this \AgdaPostulate{String} approach permits saying that the truncated output of \texttt{/dev/urandom} is a gender self-description.  However, the author acknowledges that gender self-descriptions can vary wildly and that specifically enumerating every gender is infeasible; similarly, the author is unaware of a good function \AgdaFunction{IsValidGenderSelfDescription} \AgdaSymbol{:} \AgdaPostulate{String} \AgdaSymbol{→} \AgdaPostulate{Set}.
+
+\section{A More Agender-Friendly Type}
+
+\begin{code}
+module Attempt2 where
+\end{code}
+
+In addition to a gender type, one can provide an ``abstract gender'' type, i.e., a type for gender identities, as opposed to a strict gender type; some \glspl{gEntity} lack genders, but the author assumes that all such \glspl{gEntity} \emph{do} have gender identities, i.e., identities which pertain to the concept of gender, although being unaware of such identity is possible.  Anyway, the structural definition of \AgdaFunction{AbstractGender}, which is the type for gender identities, is as follows:
+
+\begin{code}
+  AbstractGender : Set
+  AbstractGender = Maybe Attempt1.Gender
+\end{code}
+
+Again, at the risk of sounding a bit formal, one can say that for all \AgdaRecord{Attempt1.Gender} terms \AgdaBound{g} and \glspl{gEntity} \(x\), the following statements apply:
+
+\begin{itemize}
+  \item \AgdaInductiveConstructor{just} \AgdaBound{g} is the \AgdaRecord{AbstractGender} for \(x\) if and only if the following conditions hold:
+  \begin{itemize}
+    \item \(x\) has a gender, and
+    \item \(x\)'s gender is \AgdaBound{g}.
+  \end{itemize}
+  \item \AgdaInductiveConstructor{nothing} is the \AgdaRecord{AbstractGender} for \(x\) if and only if \(x\) is agender.
+\end{itemize}
 
 \printbibliography{}
 
