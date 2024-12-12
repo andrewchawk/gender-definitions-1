@@ -93,13 +93,20 @@ At the risk of sounding a bit formal, one can say that \AgdaRecord{Gender1} is s
 Essentially, the flaws of \AgdaRecord{Gender1} are as follows:
 
 \begin{enumerate}
-  \item \AgdaRecord{Gender1} sucks for agender entities\ldots{}
+  \item \AgdaRecord{Gender1} sucks for agender entities\ldots{}\label{enum:gender1agender}
   \begin{itemize}
     \item \ldots and bigender entities, trigender entities, and, generally, \(n\)-gender entities, where \(n \neq 1\).
   \end{itemize}
   \item \AgdaRecord{String} \emph{might} be a bit too vague.
   \item \AgdaRecord{String} does not facilitate the equality comparison of genders.
 \end{enumerate}
+
+\paragraph{Entities whose Gender Count Is Not One}
+\subparagraph{Agender Support}
+As stated in \fref{enum:gender1agender}, \AgdaRecord{Gender1} does not accommodate agender entities; such entities are likely to say that,\cite{healthline-agender}\cite{lgbtqia-wiki-agender} per the name, which essentially means ``without gender'',\cite{lgbtqia-wiki-agender} agender entities lack genders and, therefore, descriptions of such genders; accordingly, one can conclude that \AgdaRecord{Gender1}, which depends upon gender self-descriptions, is unsuitable for use with agender entities.
+
+\subparagraph{\(n\)-Gender Support}
+For similar reasons, \AgdaRecord{Gender1} is all but incompatible with bigender entities and such; although \AgdaRecord{Gender1} \emph{does} \emph{technically} support the selection of multiple genders through comma-separated lists and such, the author finds that such second-class support is unfair and, therefore, unsuitable.  Also, like agender entities, an \(n\)-gender entity \(e\) where \(n > 1\), may say that the gender identity of \(e\) is a combination of genders but \emph{is not actually a gender}; in this case, the simple \AgdaRecord{Gender1} approach is outright unsuitable.
 
 \printbibliography{}
 \end{document}
