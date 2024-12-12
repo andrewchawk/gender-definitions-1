@@ -94,6 +94,10 @@ open import Data.Maybe
   using
     ( Maybe
     )
+open import Data.List
+  using
+    ( List
+    )
 \end{code}
 
 \section{A Particularly Simple Definition}
@@ -158,10 +162,38 @@ Again, at the risk of sounding a bit formal, one can say that for all \AgdaRecor
   \item \AgdaInductiveConstructor{nothing} is the \AgdaRecord{AbstractGender} for \(x\) if and only if \(x\) is agender.
 \end{itemize}
 
-\subsection{Flaws}
+\subsection{Flaws}\label{sec:gender2flaws}
 This approach inherits the \(n\)-gender \gls{gEntity} flaws of \AgdaRecord{Attempt1.Gender}, where \(n > 1\).
 
 Also, this approach inherits all of the issues which are inherent in the use of \AgdaPostulate{String}; ultimately, \AgdaFunction{AbstractGender} uses \AgdaPostulate{String} for gender representation.
+
+\section{A More \(n\)-Gender-Friendly Approach}
+
+\begin{code}
+module Attempt3 where
+\end{code}
+
+As indicated in \fref{sec:gender2flaws}, \AgdaRecord{Attempt2.AbstractGender}, despite accommodating agender \glspl{gEntity}, fails to properly accommodate \(n\)-gender \glspl{gEntity}.  Accordingly, in the hope of better accommodating such \glspl{gEntity}, the author has structurally defined a gender identity type \AgdaFunction{AbstractGender} as follows:
+
+\begin{code}
+  AbstractGender : Set
+  AbstractGender = List Attempt1.Gender
+\end{code}
+
+Semantically, one can say that the \AgdaFunction{AbstractGender} of a given \gls{gEntity} \(x\) is the list of all genders of \(x\); accordingly, the following statements hold:
+
+\begin{enumerate}
+  \item Agender \glspl{gEntity}' \AgdaFunction{AbstractGender} is the empty list, i.e., \AgdaInductiveConstructor{[]}.
+  \item A given \gls{gEntity} \(x\) has exactly one gender \AgdaBound{g} if and only if the \AgdaFunction{AbstractGender} for \(x\) is \AgdaOperator{\AgdaFunction{[}} \AgdaBound{g} \AgdaOperator{\AgdaFunction{]}}, i.e., the singleton list which contains \AgdaBound{g}.
+  \item A given \gls{gEntity} \(x\) has \(n\) genders, where \(n > 1\), only if the \AgdaFunction{AbstractGender} for \(x\) is a list of all genders of \(x\).\footnote{All right, this one is damn near just a repeat of the beginning of this paragraph.  Twenty lashes for the author!}
+\end{enumerate}
+
+\subsection{Flaws}
+Some flaws of this new approach are as follows:
+
+\begin{enumerate}
+  \item \AgdaFunction{AbstractGender} fails to explicitly distinguish between genderfluid identities and polygender identities.
+\end{enumerate}
 
 \printbibliography{}
 
