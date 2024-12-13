@@ -211,7 +211,7 @@ Accordingly, one can rightfully conclude that \AgdaFunction{AbstractGender} is i
 module Attempt4 where
 \end{code}
 
-Alternatively, gender identity can be represented as a binary predicate \(P\) on the universe contexts and the genders such that for all such gender identities \(P\), universe contexts \(U\), and genders \(g\), there exists a term of type \(P\ U\ g\) if and only if for all given \glspl{gEntity} \(x\) of gender identity \(P\), \(g\) is a gender of \(x\) when \(x\)'s universe context is \(U\).  \AgdaFunction{AbstractGender}, which is a universe-level-polymorphic version of \(P\), is defined as follows:
+Alternatively, gender identity can be represented as a binary predicate \(P\) on the universe contexts and the genders such that for all such gender identities \(P\) and \glspl{gEntity} \(x\), \(P\) is the gender identity of \(x\) if and only if for all given universe contexts \(U\) and genders \(g\), \(P\ U\ g\) is inhabited if and only if \(g\) is a gender of \(x\) when \(x\)'s universe context is \(U\).  \AgdaFunction{AbstractGender}, which is a universe-level-polymorphic version of \(P\), is defined as follows:
 
 \begin{code}
   AbstractGender : (u : Agda.Primitive.Level) → Set (Agda.Primitive.lsuc u)
