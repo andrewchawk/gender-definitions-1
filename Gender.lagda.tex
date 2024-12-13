@@ -220,6 +220,27 @@ Alternatively, gender identity can be represented as a binary predicate \(P\) on
 
 Much like the simpler \(P\), \AgdaFunction{AbstractGender} can be semantically defined as follows: For all universe levels \AgdaBound{u}, \AgdaFunction{AbstractGender} \AgdaBound{u} terms \AgdaBound{G}, and \glspl{gEntity} \(x\), \AgdaBound{G} is the gender identity of \(x\) if and only if for all universe contexts \AgdaBound{U} and genders \AgdaBound{g}, ``\AgdaBound{g} is a gender of \(x\) in context \AgdaBound{U}'' holds if and only \AgdaBound{G} \AgdaBound{U} \AgdaBound{g} is inhabited.
 
+\subsection{Flaws}
+
+A subset of the flaws of this approach is as follows:
+
+\begin{enumerate}
+  \item The whole ``universe context'' idea is pretty clunky.
+  \item \hyperref[sec:gender4Extent]{Describing the extent of gender is unsupported.}
+\end{enumerate}
+
+\paragraph{Extent}\label{sec:gender4Extent}
+Genderfluidity is known to be such that in a given context, a genderfluid \gls{gEntity} \(x\) can identify with multiple genders at once such that the strength of \(x\)'s identification is not consistent among the genders.  Equivalently but more formally, one can say that a \gls{gEntity} \(x\), a level \AgdaBound{u}, an \AgdaFunction{AbstractGender} \AgdaBound{u} term \AgdaBound{G}, a universe context \AgdaBound{U}, and genders \AgdaBound{g1} and \AgdaBound{g2} exist such that the following conditions hold:
+
+\begin{enumerate}
+  \item \AgdaBound{G} is the gender identity of \(x\).
+  \item \AgdaBound{G} \AgdaBound{U} \AgdaBound{g1} and \AgdaBound{G} \AgdaBound{U} \AgdaBound{g2} are populated.
+  \item In context \AgdaBound{U}, \(x\)'s feeling of \AgdaBound{g1} is stronger than \(x\)'s feeling of \AgdaBound{g2}.
+\end{enumerate}
+
+\subparagraph{\st{Epic} Monic Fail}
+Because \AgdaFunction{AbstractGender} uses proofs, not measures of extent, \AgdaFunction{AbstractGender} cannot represent such intensity variation; accordingly, the morphism from the gender identity object to the \AgdaFunction{AbstractGender} object is \emph{not} monic and, therefore, is unacceptable for this paper.
+
 \printbibliography{}
 
 \newglossaryentry{gEntity}
