@@ -205,6 +205,21 @@ Some flaws of this new approach are as follows:
 
 Accordingly, one can rightfully conclude that \AgdaFunction{AbstractGender} is in violation of \fref{enum:specRuleRepresentationDifference} and, therefore, is not a good solution.
 
+\section{A More Genderfluid-Friendly Definition}
+
+\begin{code}
+module Attempt4 where
+\end{code}
+
+Alternatively, gender identity can be represented as a binary predicate \(P\) on the universe contexts and the genders such that for all such gender identities \(P\), universe contexts \(U\), and genders \(g\), there exists a term of type \(P\ U\ g\) if and only if for all given \gls{gEntity} \(x\), \(g\) is a gender of \(x\) when the \(x\)'s universe context is \(U\).  \AgdaFunction{AbstractGender}, which is a universe-level-polymorphic version of \(P\), is defined as follows:
+
+\begin{code}
+  AbstractGender : (u : Agda.Primitive.Level) → Set (Agda.Primitive.lsuc u)
+  AbstractGender u = Set u → Attempt1.Gender → Set u
+\end{code}
+
+Much like the simpler \(P\), \AgdaFunction{AbstractGender} can be semantically defined as follows: For all universe levels \AgdaBound{u}, \AgdaFunction{AbstractGender} \AgdaBound{u} terms \AgdaBound{G}, and \glspl{gEntity} \(x\), \AgdaBound{G} is the gender identity of \(x\) if and only if for all universe contexts \AgdaBound{U} and genders \AgdaBound{g}, ``\AgdaBound{g} is a gender of \(x\) in context \AgdaBound{U}'' holds if and only \AgdaBound{G} \AgdaBound{U} \AgdaBound{g} is inhabited.
+
 \printbibliography{}
 
 \newglossaryentry{gEntity}
