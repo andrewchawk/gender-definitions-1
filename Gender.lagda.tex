@@ -84,10 +84,10 @@ In this paper, the author tries to use Agda to define a gender identity type \(G
 \subsection{Stuff for Agda}
 
 \paragraph{Options}
-The following Agda blip indicates that this whole document is safe, i.e., does not use \AgdaKeyword{postulate}s or anything of the sort.
+The following Agda blip indicates that this whole document is safe, i.e., does not use \AgdaKeyword{postulate}s or anything of the sort, and uses Cubical Agda.
 
 \begin{code}
-{-# OPTIONS --safe #-}
+{-# OPTIONS --safe --cubical #-}
 \end{code}
 
 \paragraph{The Module Header}
@@ -106,6 +106,7 @@ open import Data.String using (String)
 open import Data.Maybe using (Maybe)
 open import Data.List using (List)
 open import Data.Rational using (ℚ ; 0ℚ ; 1ℚ)
+open import Agda.Primitive.Cubical using (I)
 \end{code}
 
 \section{A Particularly Simple Definition}
@@ -279,6 +280,22 @@ Even \emph{this} approach is flawed!  Accordingly, the author has elected to lis
 
 \paragraph{Irrational Extents}\label{sec:gender5irrational}
 \AgdaFunction{AbstractGender} fails to accommodate a gender identity \(P\) which is such that for all \glspl{gEntity} \(x\) of gender identity \(P\), a universe context \(U\) and a gender \(g\) exist such that the extent to which \(x\) identifies with \(g\) in \(U\) \emph{cannot} be expressed as a natural number.  Accordingly, an approximation must be used, but such approximation would violate \fref{enum:specRuleRepresentationDifference}.  Accordingly, this approach is \emph{also} unsuitable.
+
+\section{The Interval Type}
+
+\begin{code}
+module Attempt6 where
+\end{code}
+
+Much like whoever thought that \AgdaFunction{Attempt5.AbstractGender} is a good idea, one can say that gender identity can be represented as a real-valued function \(G\) such that for all \glspl{gEntity} \(x\), \(G\) is the gender identity of \(x\) if and only if for all genders \(g\) and universe contexts \(U\), the extent of \(x\)'s identification with \(g\) in \(U\) is \(G\ U\ g\).  One can define a corresponding Agda function \AgdaFunction{AbstractGender} as follows:
+
+\begin{code}
+  AbstractGender : (u : Agda.Primitive.Level) →
+                   Agda.Primitive.SSet (Agda.Primitive.lsuc u)
+  AbstractGender u = Set u → Attempt1.Gender → I
+\end{code}
+
+Once again, the Agda version is essentially just a universe-polymorphic equivalent of the non-Agda equivalent.  More formally, e.g., the author, who is sick of writing this boilerplate-like stuff, one can say that for all \glspl{gEntity} \(x\), levels \AgdaBound{u}, and \AgdaFunction{AbstractGender} \AgdaBound{u} terms \AgdaBound{G}, \AgdaBound{G} is the gender identity of \(x\) if and only if for all appropriate \AgdaBound{U} and \AgdaBound{g}, the extent to which \(x\) identifies with \AgdaBound{g} in \AgdaBound{U} is \AgdaBound{G} \AgdaBound{U} \AgdaBound{g}, where \AgdaPostulate{i0} and \AgdaPostulate{i1} indicate complete non-identification and total identification with \AgdaBound{g}, respectively, and other \AgdaPostulate{I} values are assigned linearly.
 
 \printbibliography{}
 
