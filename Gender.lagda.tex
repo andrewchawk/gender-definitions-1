@@ -98,15 +98,23 @@ module Gender where
 \end{code}
 
 \paragraph{Recommended Reading}
+
+\subparagraph{Agda Primitives}
+As one may have expected, this document makes use of some Agda primitives.  Although using such primitives without explicit ``\AgdaKeyword{import}'' statements is possible, such usage demands the use of fully-qualified identifiers, and the resulting verbosity irritates the author, who, accordingly, has decided to use some ``\AgdaKeyword{open} \AgdaKeyword{import}'' statements to decrease such verbosity.  Anyway, a brief listing or such of the primitives which are used is as follows:
+
+\begin{code}
+open import Agda.Primitive.Cubical using (I)
+open import Agda.Primitive using (Level ; lsuc ; SSet)
+\end{code}
+
 \subparagraph{The Agda Standard Library}
-This document makes use of some parts of \textcite{agdaStdlib}.  A brief overview of the parts which are used is as follows:
+This document also makes use of some parts of \textcite{agdaStdlib}.  A brief overview of the parts which are used is as follows:
 
 \begin{code}
 open import Data.String using (String)
 open import Data.Maybe using (Maybe)
 open import Data.List using (List)
 open import Data.Rational using (ℚ ; 0ℚ ; 1ℚ)
-open import Agda.Primitive.Cubical using (I)
 \end{code}
 
 \section{A Particularly Simple Definition}
@@ -223,7 +231,7 @@ module Attempt4 where
 Alternatively, gender identity can be represented as a binary predicate \(P\) on the universe contexts and the genders such that for all such gender identities \(P\) and \glspl{gEntity} \(x\), \(P\) is the gender identity of \(x\) if and only if for all given universe contexts \(U\) and genders \(g\), \(P\ U\ g\) is inhabited if and only if \(g\) is a gender of \(x\) when \(x\)'s universe context is \(U\).  \AgdaFunction{AbstractGender}, which is a universe-level-polymorphic version of \(P\), is defined as follows:
 
 \begin{code}
-  AbstractGender : (u : Agda.Primitive.Level) → Set (Agda.Primitive.lsuc u)
+  AbstractGender : (u : Level) → Set (lsuc u)
   AbstractGender u = Set u → Attempt1.Gender → Set u
 \end{code}
 
@@ -265,7 +273,7 @@ Alternatively \emph{still} --- ooh-wee ---, one can say that gender identity is 
       greater : 0ℚ Data.Rational.≥ q
       less : q Data.Rational.≤ 1ℚ
 
-  AbstractGender : (u : Agda.Primitive.Level) → Set (Agda.Primitive.lsuc u)
+  AbstractGender : (u : Level) → Set (lsuc u)
   AbstractGender u = Set u → Attempt1.Gender → Unitℚ
 \end{code}
 
@@ -290,8 +298,7 @@ module Attempt6 where
 Much like whoever thought that \AgdaFunction{Attempt5.AbstractGender} is a good idea, one can say that gender identity can be represented as a real-valued function \(G\) such that for all \glspl{gEntity} \(x\), \(G\) is the gender identity of \(x\) if and only if for all genders \(g\) and universe contexts \(U\), the extent of \(x\)'s identification with \(g\) in \(U\) is \(G\ U\ g\).  One can define a corresponding Agda function \AgdaFunction{AbstractGender} as follows:
 
 \begin{code}
-  AbstractGender : (u : Agda.Primitive.Level) →
-                   Agda.Primitive.SSet (Agda.Primitive.lsuc u)
+  AbstractGender : (u : Level) → SSet (lsuc u)
   AbstractGender u = Set u → Attempt1.Gender → I
 \end{code}
 
