@@ -264,7 +264,7 @@ Because \AgdaFunction{AbstractGender} uses proofs, not measures of extent, \Agda
 module Attempt5 where
 \end{code}
 
-Alternatively \emph{still} --- ooh-wee ---, one can say that gender identity is a function \(G\) from the universe contexts and the genders to the rationals which are inclusively bounded by \(1\) and \(0\) such that for all \glspl{gEntity} \(x\) and gender identities \(G\), \(G\) is the gender identity of \(x\) if and only if the extent to which \(x\) identifies with any given gender \(g\) in any given context \(U\) is \(G\ U\ g\).  Accordingly, the author has defined \AgdaFunctin{AbstractGender}, which is a universe-level-abstract equivalent of this function, and a supporting interval type \AgdaRecord{Unitℚ}, as follows:
+Alternatively \emph{still} --- ooh-wee ---, one can say that gender identity is a function \(G\) from the universe contexts and the genders to the rationals which are inclusively bounded by \(1\) and \(0\) such that for all \glspl{gEntity} \(x\) and gender identities \(G\), \(G\) is the gender identity of \(x\) if and only if the extent to which \(x\) identifies with any given gender \(g\) in any given context \(U\) is \(G\ U\ g\).  Accordingly, the author has defined \AgdaFunction{AbstractGender}, which is a universe-level-abstract equivalent of this function, and a supporting interval type \AgdaRecord{Unitℚ}, as follows:
 
 \begin{code}
   record Unitℚ : Set where
@@ -289,20 +289,20 @@ Even \emph{this} approach is flawed!  Accordingly, the author has elected to lis
 \paragraph{Irrational Extents}\label{sec:gender5irrational}
 \AgdaFunction{AbstractGender} fails to accommodate a gender identity \(P\) which is such that for all \glspl{gEntity} \(x\) of gender identity \(P\), a universe context \(U\) and a gender \(g\) exist such that the extent to which \(x\) identifies with \(g\) in \(U\) \emph{cannot} be expressed as a natural number.  Accordingly, an approximation must be used, but such approximation would violate \fref{enum:specRuleRepresentationDifference}.  Accordingly, this approach is \emph{also} unsuitable.
 
-\section{The Interval Type}
+\section{The Continuous Interval Type}
 
 \begin{code}
 module Attempt6 where
 \end{code}
 
-Much like whoever thought that \AgdaFunction{Attempt5.AbstractGender} is a good idea, one can say that gender identity can be represented as a real-valued function \(G\) such that for all \glspl{gEntity} \(x\), \(G\) is the gender identity of \(x\) if and only if for all genders \(g\) and universe contexts \(U\), the extent of \(x\)'s identification with \(g\) in \(U\) is \(G\ U\ g\).  One can define a corresponding Agda function \AgdaFunction{AbstractGender} as follows:
+Much like whoever thought that \AgdaFunction{Attempt5.AbstractGender} is a good idea, one can say that gender identity can be represented as a real-valued binary function \(G\) such that for all \glspl{gEntity} \(x\), \(G\) is the gender identity of \(x\) if and only if for all genders \(g\) and universe contexts \(U\), the extent of \(x\)'s identification with \(g\) in \(U\) is \(G\ U\ g\).  One can define a corresponding Agda function \AgdaFunction{AbstractGender} as follows:
 
 \begin{code}
   AbstractGender : (u : Level) → SSet (lsuc u)
   AbstractGender u = Set u → Attempt1.Gender → I
 \end{code}
 
-Once again, the Agda version is essentially just a universe-polymorphic equivalent of the non-Agda equivalent.  More formally, e.g., the author, who is sick of writing this boilerplate-like stuff, one can say that for all \glspl{gEntity} \(x\), levels \AgdaBound{u}, and \AgdaFunction{AbstractGender} \AgdaBound{u} terms \AgdaBound{G}, \AgdaBound{G} is the gender identity of \(x\) if and only if for all appropriate \AgdaBound{U} and \AgdaBound{g}, the extent to which \(x\) identifies with \AgdaBound{g} in \AgdaBound{U} is \AgdaBound{G} \AgdaBound{U} \AgdaBound{g}, where \AgdaInductiveConstructor{Agda.Primitive.Cubical.i0} and \AgdaInductiveConstructor{Agda.Primitive.Cubical.i1} indicate complete non-identification and total identification with \AgdaBound{g}, respectively, and other \AgdaDatatype{I} values are assigned linearly.
+Once again, the Agda version is essentially just a universe-polymorphic equivalent of the non-Agda function.  More formally, one, e.g., the author, who is sick of writing this boilerplate-like stuff, can say that for all \glspl{gEntity} \(x\), levels \AgdaBound{u}, and \AgdaFunction{AbstractGender} \AgdaBound{u} terms \AgdaBound{G}, \AgdaBound{G} is the gender identity of \(x\) if and only if for all appropriate \AgdaBound{U} and \AgdaBound{g}, the extent to which \(x\) identifies with \AgdaBound{g} in \AgdaBound{U} is \AgdaBound{G} \AgdaBound{U} \AgdaBound{g}, where \AgdaInductiveConstructor{Agda.Primitive.Cubical.i0} and \AgdaInductiveConstructor{Agda.Primitive.Cubical.i1} indicate complete non-identification and total identification with \AgdaBound{g}, respectively, and other \AgdaDatatype{I} values are assigned linearly.
 
 \printbibliography{}
 
