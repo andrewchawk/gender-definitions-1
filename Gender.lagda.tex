@@ -270,7 +270,7 @@ Alternatively \emph{still} --- ooh-wee ---, one can say that gender identity is 
   record Unitℚ : Set where
     field
       q : ℚ
-      greater : 0ℚ Data.Rational.≥ q
+      greater : 0ℚ Data.Rational.≤ q
       less : q Data.Rational.≤ 1ℚ
 
   AbstractGender : (u : Level) → Set (lsuc u)
