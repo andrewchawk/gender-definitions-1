@@ -98,6 +98,7 @@ This document makes use of some parts of \textcite{agdaStdlib}.  A brief overvie
 open import Data.String using (String)
 open import Data.Maybe using (Maybe)
 open import Data.List using (List)
+open import Data.Rational using (ℚ ; 0ℚ ; 1ℚ)
 \end{code}
 
 \section{A Particularly Simple Definition}
@@ -240,6 +241,37 @@ Genderfluidity is known to be such that in a given context, a genderfluid \gls{g
 
 \subparagraph{\st{Epic} Monic Fail}
 Because \AgdaFunction{AbstractGender} uses proofs, not measures of extent, \AgdaFunction{AbstractGender} cannot represent such intensity variation; accordingly, the morphism from the gender identity object to the \AgdaFunction{AbstractGender} object is \emph{not} monic and, therefore, is unacceptable for this paper.
+
+\section{A Similar --- but Interval-Based --- Approach}
+
+\begin{code}
+module Attempt5 where
+\end{code}
+
+Alternatively \emph{still} --- ooh-wee ---, one can say that gender identity is a function \(G\) from the universe contexts and the genders to the rationals which are inclusively bounded by \(1\) and \(0\) such that for all \glspl{gEntity} \(x\) and gender identities \(G\), \(G\) is the gender identity of \(x\) if and only if the extent to which \(x\) identifies with any given gender \(g\) in any given context \(U\) is \(G\ U\ g\).  Accordingly, the author has defined \AgdaFunctin{AbstractGender}, which is a universe-level-abstract equivalent of this function, and a supporting interval type \AgdaRecord{Unitℚ}, as follows:
+
+\begin{code}
+  record Unitℚ : Set where
+    field
+      q : ℚ
+      greater : 0ℚ Data.Rational.≥ q
+      less : q Data.Rational.≤ 1ℚ
+
+  AbstractGender : (u : Agda.Primitive.Level) → Set (Agda.Primitive.lsuc u)
+  AbstractGender u = Set u → Attempt1.Gender → Unitℚ
+\end{code}
+
+For \AgdaFunction{AbstractGender}, one can \emph{so informally} say that for all levels \AgdaBound{u}, \glspl{gEntity} \(x\), and \AgdaFunction{AbstractGender} \AgdaBound{u} terms \AgdaBound{G}, \AgdaBound{G} is the gender identity of \(x\) if and only if for all relevant universe-contexts \AgdaBound{U} and genders \AgdaBound{g}, the extent to which \(x\), in \AgdaBound{U}, identifies with \AgdaBound{g} is \AgdaBound{G} \AgdaBound{U} \AgdaBound{g}, with \AgdaFunction{0ℚ} representing a complete lack of identification with a given gender and \AgdaFunction{1ℚ} representing total identification with a given gender.
+
+\subsection{Flaws}
+Even \emph{this} approach is flawed!  Accordingly, the author has elected to list some of the flaws, which are as follows:
+
+\begin{enumerate}
+  \item \AgdaFunction{AbstractGender} fails to accommodate irrational extents.
+\end{enumerate}
+
+\paragraph{Irrational Extents}
+\AgdaFucntion{AbstractGender} fails to accommodate a gender identity \(P\) which is such that for all \glspl{gEntity} \(x\) of gender identity \(P\), a universe context \(U\) and a gender \(g\) exist such that the extent to which \(x\) identifies with \(g\) in \(U\) \emph{cannot} be expressed as a natural number.  Accordingly, an approximation must be used, but such approximation would violate \fref{enum:specRuleRepresentationDifference}.  Accordingly, this approach is \emph{also} unsuitable.
 
 \printbibliography{}
 
