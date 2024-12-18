@@ -16,6 +16,11 @@
 \usepackage{adjustbox}
 \usepackage{soul}
 \usepackage{mfirstuc}
+\usepackage{amsthm}
+%\usepackage{cleveref}
+
+\theoremstyle{remark}
+\newtheorem{example}{Example}
 
 \addbibresource{citationNeeded.bib}
 
@@ -56,6 +61,8 @@
 \newcommand{\category}[1]{\mathsf{#1}}
 
 \MFUhyphentrue{}
+
+\setcounter{secnumdepth}{6}
 
 \title{On Gender \&c.}
 \author{la zungi no'u la nakni no'u la\ .ax.}
@@ -131,6 +138,56 @@ Simply, one can define a gender type \AgdaRecord{Gender} as follows:
 \end{code}
 
 At the risk of sounding a bit formal, one can say that \AgdaRecord{Gender} is such that for all \glspl{gEntity} \(x\) and terms \AgdaBound{g} of type \AgdaRecord{Gender}, \AgdaBound{g} is the gender of \(x\) if and only if \(x\)'s description of \(x\)'s gender is \AgdaRecord{Gender.selfDescription} \AgdaBound{g}.  However, as indicated by the mere \emph{existence} of \fref{sec:gender1flaws}, \AgdaRecord{Gender} is flawed.
+
+\subsection{Examples}
+
+\begin{code}
+  module Example where
+\end{code}
+
+\begin{example}\label{example:gender1exampleFemale}
+  Using \AgdaRecord{Gender}, one can represent the female gender as follows:
+
+  \begin{code}
+    female : Gender
+    female = record {selfDescription = "female"}
+  \end{code}
+
+  The author has no \emph{major} qualms with this approach but \hyperref[enum:gender1stringComparison]{\emph{does} think that \AgdaPostulate{String} might be a pain for determining equivalences between genders}.
+\end{example}
+
+\begin{example}
+  Much like for \AgdaFunction{female}, with the assistance of \AgdaRecord{Gender}, one can represent the male gender as follows:
+
+  \begin{code}
+    male : Gender
+    male = record {selfDescription = "male"}
+\end{code}
+
+\AgdaFunction{female}'s \AgdaPostulate{String} complaint also applies to \AgdaFunction{male}.
+\end{example}
+
+\begin{example}
+  In addition, nonbinary genders are supported; because \AgdaField{selfDescription}s are terms of \AgdaPostulate{String}, any such self-description is appropriate.  Accordingly, one can represent, for example, the maverique gender\cite{nonbinaryWikiMaverique} as follows:
+
+  \begin{code}
+    maverique : Gender
+    maverique = record {selfDescription = "maverique"}
+  \end{code}
+
+Once again, that one \AgdaPostulate{String} complaint also applies here.
+\end{example}
+
+\begin{example}
+  Also, still, one can define a \AgdaRecord{Gender} term which is allegedly suitable for use with agender \glspl{gEntity} as follows:
+
+  \begin{code}
+    agender : Gender
+    agender = record {selfDescription = "agender"}
+  \end{code}
+
+  However, as indicated by ``allegedly'' and the overall janky phrasing, per \fref{enum:gender1agender}, \AgdaFunction{agender} is bogus.
+\end{example}
 
 \subsection{Flaws}\label{sec:gender1flaws}
 Essentially, the flaws of \AgdaRecord{Gender} are as follows:
