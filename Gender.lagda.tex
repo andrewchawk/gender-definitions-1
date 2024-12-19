@@ -351,7 +351,7 @@ Even \emph{this} approach is flawed!  Accordingly, the author has elected to lis
 module Attempt6 where
 \end{code}
 
-Much like whoever thought that \AgdaFunction{Attempt5.AbstractGender} is a good idea, one can say that gender identity can be represented as a real-valued binary function \(G\) such that for all \glspl{gEntity} \(x\), \(G\) is the gender identity of \(x\) if and only if for all genders \(g\) and universe contexts \(U\), the extent of \(x\)'s identification with \(g\) in \(U\) is \(G\ U\ g\).  One can define a corresponding Agda function \AgdaFunction{AbstractGender} as follows:
+Much like whoever thought that \AgdaFunction{Attempt5.AbstractGender} is a good idea, one can say that gender identity can be represented as a real-unit-interval-valued binary function \(G\) such that for all \glspl{gEntity} \(x\), \(G\) is the gender identity of \(x\) if and only if for all genders \(g\) and universe contexts \(U\), the extent of \(x\)'s identification with \(g\) in \(U\) is \(G\ U\ g\).  One can define a corresponding Agda function \AgdaFunction{AbstractGender} as follows:
 
 \begin{code}
   AbstractGender : (u : Level) → SSet (lsuc u)
