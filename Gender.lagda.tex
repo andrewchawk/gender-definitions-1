@@ -264,7 +264,7 @@ module Attempt3 where
 Alternatively \emph{still}, \summaryLink{sec:gender3definition}{one can say that for all \glspl{gEntity} \(x\), the gender identity of \(x\) is a list of all genders with which \(x\) identifies}.  This approach is suitable for agender, monogender, and polygender \glspl{gEntity}.  But \summaryLink{sec:gender2flaws}{even \emph{this} approach is flawed}; this approach \summaryLink{enum:gender2genderfluidOrPolygender}{fails to distinguish between polygender and genderfluid \glspl{gEntity}}.
 
 \subsection{Definition}\label{sec:gender3definition}
-As indicated in \fref{sec:gender2flaws}, \AgdaRecord{Attempt2.AbstractGender}, despite accommodating agender \glspl{gEntity}, fails to properly accommodate \(n\)-gender \glspl{gEntity}.  Accordingly, in the hope of better accommodating such \glspl{gEntity}, the author has structurally defined a gender identity type \AgdaFunction{AbstractGender} as follows:
+As indicated in \fref{enum:gender2nGender}, \AgdaRecord{Attempt2.AbstractGender}, despite accommodating agender \glspl{gEntity}, fails to properly accommodate \(n\)-gender \glspl{gEntity}.  Accordingly, in the hope of better accommodating such \glspl{gEntity}, the author has structurally defined a gender identity type \AgdaFunction{AbstractGender} as follows:
 
 \begin{code}
   AbstractGender : Set
@@ -279,7 +279,7 @@ Semantically, one can say that the \AgdaFunction{AbstractGender} of a given \gls
   \item A given \gls{gEntity} \(x\) has \(n\) genders, where \(n > 1\), only if the \AgdaFunction{AbstractGender} for \(x\) is a list of all genders of \(x\).\footnote{All right, this one is damn near just a repeat of the beginning of this paragraph.  Twenty lashes for the author!}
 \end{enumerate}
 
-\subsection{Flaws}\label{sec:gender2flaws}
+\subsection{Flaws}\label{sec:gender3flaws}
 Some flaws of this new approach are as follows:
 
 \begin{enumerate}
