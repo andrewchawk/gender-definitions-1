@@ -455,7 +455,7 @@ module Attempt8 where
 \subsection{Definitions}
 
 \paragraph{Yet Another Type for Gender}
-In contrast with \AgdaFunction{Attempt7.Gender}, which does not indicate the extent of identification with a given gender description, one can say that for all genders \(g\), \(g\) is a unary function from the gender self-descriptions, i.e., \AgdaPostulate{String} terms, to the unit interval, with \(0\) indicating complete non-identification with a given description and \(1\) indicating total\footnote{Total identification with multiple distinct gender self-descriptions is possible.}  identification with a given description.  As Dear Reader may have expected, the other interval values are assigned linearly.  With this idea in mind, one can define an Agda type \AgdaRecord{Gender}, in which \AgdaField{Gender.selfDescriptions} serves as the container for these fancy ``\(g\)'' functions, as follows:
+In contrast with \AgdaFunction{Attempt7.Gender}, which does not indicate the extent of identification with a given gender description, one can say that for all genders \(g\), \(g\) is a unary function from the gender self-descriptions, i.e., \AgdaPostulate{String} terms, to the unit interval, with \(0\) indicating complete non-identification with a given description and \(1\) indicating total\footnote{Total identification with multiple distinct gender self-descriptions is possible.}  identification with a given description.  As Dear Reader may have expected, the other interval values are assigned linearly.  With this idea in mind, one can define a type \AgdaRecord{Gender}, in which \AgdaField{Gender.selfDescriptions} serves as the container for these fancy ``\(g\)'' functions, as follows:
 
 \begin{code}
   record Gender : SSet where
