@@ -22,6 +22,7 @@
 
 \theoremstyle{remark}
 \newtheorem{example}{Example}
+\newtheorem{theorem}{Theorem}
 
 \newcommand{\summaryLink}[2]{\hyperref[#1]{#2}}
 
@@ -434,9 +435,17 @@ Some advantages of this approach are as follows:
 Some flaws of this approach are as follows:
 
 \begin{enumerate}
-  \item \AgdaRecord{Gender} does not indicate the \emph{extent} of identification with a given gender description.
+  \item \summaryLink{sec:gender7flawExtent}{\AgdaRecord{Gender} does not indicate the \emph{extent} of identification with a given gender description.}\label{enum:gender7flawExtent}
 \end{enumerate}
 
+\paragraph{Extent}\label{sec:gender7flawExtent}
+\begin{theorem}
+  This approach is bogus.
+\end{theorem}
+
+\begin{proof}
+  This approach is bogus if there exist two distinct genders \(g_1\) and \(g_2\) such that \AgdaRecord{Gender} cannot differentiate \(g_1\) and \(g_2\).  Such distinct genders exist if genders \(g_1\) and \(g_2\) and a gender self-description \(s\) exist such that the following statement holds: \(g_1\) \glspl{gEntity} and \(g_2\) \glspl{gEntity} \emph{both} identify with \(s\), but the \emph{extent} of \(g_1\)'s identification with \(s\) is greater than the extent of \(g_2\)'s identification with \(s\).  There \emph{do} exist such genders, and there \emph{does} exist such a gender self-description.  Therefore, this approach is bogus.
+\end{proof}
 \section{The Interval Type for Gender}
 
 \begin{code}
