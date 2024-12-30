@@ -370,7 +370,7 @@ Even \emph{this} approach is flawed!  Accordingly, the author has elected to lis
 \paragraph{Irrational Extents}\label{sec:gender5irrational}
 \AgdaFunction{AbstractGender} fails to accommodate a gender identity \(P\) which is such that for all \glspl{gEntity} \(x\) of gender identity \(P\), a universe context \(U\) and a gender \(g\) exist such that the extent to which \(x\) identifies with \(g\) in \(U\) \emph{cannot} be expressed as a natural number.  Accordingly, an approximation must be used, but such approximation would violate \fref{enum:specRuleRepresentationDifference}.  Accordingly, this approach is \emph{also} unsuitable.
 
-\section{The Continuous Interval Type}
+\section{The Continuous Interval Type}\label{sec:gender6}
 
 \begin{code}
 module Attempt6 where
@@ -388,6 +388,54 @@ Much like whoever thought that \AgdaFunction{Attempt5.AbstractGender} is a good 
 \end{code}
 
 Once again, the Agda version is essentially just a universe-polymorphic equivalent of the non-Agda function.  More formally, one, e.g., the author, who is sick of writing this boilerplate-like stuff, can say that for all \glspl{gEntity} \(x\), levels \AgdaBound{u}, and \AgdaFunction{AbstractGender} \AgdaBound{u} terms \AgdaBound{G}, \AgdaBound{G} is the gender identity of \(x\) if and only if for all appropriate \AgdaBound{U} and \AgdaBound{g}, the extent to which \(x\) identifies with \AgdaBound{g} in \AgdaBound{U} is \AgdaBound{G} \AgdaBound{U} \AgdaBound{g}, where \AgdaInductiveConstructor{Agda.Primitive.Cubical.i0} and \AgdaInductiveConstructor{Agda.Primitive.Cubical.i1} indicate complete non-identification and total identification with \AgdaBound{g}, respectively, and other \AgdaDatatype{I} values are assigned linearly.
+
+\subsection{Flaws}\label{sec:gender6flaws}
+Some flaws of this approach are as follows:
+
+\begin{enumerate}
+  \item \AgdaRecord{Gender} only permits the use of \emph{one} gender self-description.\label{enum:gender6flawsMultiDesc}
+\end{enumerate}
+
+\section{An Alternative Type for Gender}
+
+\begin{code}
+module Attempt7 where
+\end{code}
+
+\subsection{Summary}
+This \AgdaFunction{AbstractGender} is quite similar to \hyperref[sec:gender6]{\AgdaFunction{Attempt6.AbstractGender}}, with the exception of the underlying type for gender; in this case, genders are essentially \AgdaFunction{Set}-level functions \(f\); this approach permits the use of multiple valid self-descriptions of a single gender.  But the identity type is still a binary function on the universe contexts and the genders.
+
+\subsection{Definitions}
+\paragraph{A New Type for Gender}
+In contrast with \AgdaFunction{Attempt1.Gender}, one can say that gender can be represented as a unary relation \(f\) on \AgdaPostulate{String} such that for all \(s\), \(f\ s\) is populated if and only if the use of \(s\) as a gender self-description for \(f\) is valid.  \AgdaRecord{Gender}, the Agda equivalent of \(f\), is defined as follows:
+
+\begin{code}
+  record Gender : Set1 where
+    field
+      selfDescriptions : String → Set
+\end{code}
+
+\paragraph{The Gender Identity Type}
+Pretty much exactly like in \fref{sec:gender6definition} --- actually, the definition is so similar that the author will not even bother with writing another semantic definition ---, one can define a gender identity type \AgdaFunction{AbstractGender} as follows:
+
+\begin{code}
+  AbstractGender : (u : Level) → SSet (lsuc u)
+  AbstractGender u = Set u → Gender → I
+\end{code}
+
+\subsection{Advantages}\label{sec:gender7advantages}
+Some advantages of this approach are as follows:
+
+\begin{enumerate}
+  \item This approach solves the ``one description'' problem of \fref{enum:gender6flawsMultiDesc}.
+\end{enumerate}
+
+\subsection{Flaws}
+Some flaws of this approach are as follows:
+
+\begin{enumerate}
+  \item \AgdaRecord{Gender} does not indicate the \emph{extent} of identification with a given gender description.
+\end{enumerate}
 
 \printbibliography{}
 
