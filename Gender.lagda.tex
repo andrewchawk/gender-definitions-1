@@ -463,6 +463,15 @@ In contrast with \AgdaFunction{Attempt7.Gender}, which does not indicate the ext
       selfDescriptions : String → I
 \end{code}
 
+\subparagraph{A More Formal Semantic Definition of \AgdaRecord{Gender}}
+Possibly a bit more formally, one can say that for a given \AgdaRecord{Gender} term \AgdaBound{g} and a given gender self-description, i.e., string, \AgdaBound{s}, \AgdaBound{g} \AgdaBound{s} is the extent to which a \gls{gEntity} whose gender is \AgdaBound{g}\footnote{This phrasing is a bit informal.  Formally, one can say that for all \glspl{gEntity} \(x\) and genders \AgdaBound{g}, \AgdaBound{g} is the gender of \(x\) if and only if in all universe contexts, the following condition holds: \(x\) completely identifies with \AgdaBound{g}, and \AgdaBound{g} is the \emph{only} gender with which \(x\) identifies.} identifies with \AgdaBound{s}.  Accordingly, for all \AgdaRecord{Gender} terms \AgdaBound{g} and gender self-descriptions, i.e., strings, \AgdaBound{s}, the following conditions apply:
+
+\begin{enumerate}
+  \item \AgdaField{Gender.selfDescriptions} \AgdaBound{g} \AgdaBound{s} is \AgdaInductiveConstructor{Agda.Primitive.Cubical.i0} if and only if for all \glspl{gEntity} \(x\), \AgdaBound{g} is the gender of \(x\) if and only if \(x\) does not at all identify with \AgdaBound{s}.
+  \item \AgdaField{Gender.selfDescriptions} \AgdaBound{g} \AgdaBound{s} is \AgdaInductiveConstructor{Agda.Primitive.Cubical.i1} if and only if for all \glspl{gEntity} \(x\), \AgdaBound{g} is the gender of \(x\) if and only if \(x\) completely identifies with \AgdaBound{s}.
+  \item Other values are assigned linearly.
+\end{enumerate}
+
 \paragraph{The Gender Identity Type}
 Again, pretty much exactly like in \fref{sec:gender6definition} --- actually, the definition is so similar that the author will, \emph{again}, not even bother with writing another semantic definition ---, one can define a gender identity type \AgdaFunction{AbstractGender} as follows:
 
