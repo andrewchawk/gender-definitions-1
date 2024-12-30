@@ -404,7 +404,7 @@ module Attempt7 where
 \end{code}
 
 \subsection{Summary}
-This \AgdaFunction{AbstractGender} is quite similar to \hyperref[sec:gender6]{\AgdaFunction{Attempt6.AbstractGender}}, with the exception of the underlying type for gender; in this case, genders are essentially \AgdaFunction{Set}-level functions \(f\); this approach permits the use of multiple valid self-descriptions of a single gender.  But the identity type is still a binary function on the universe contexts and the genders.
+This \AgdaFunction{AbstractGender} is quite similar to \hyperref[sec:gender6]{\AgdaFunction{Attempt6.AbstractGender}}, with the exception of the underlying type for gender; in this case, genders are essentially \AgdaFunction{Set}-level functions \(f\); this approach permits the use of multiple valid self-descriptions of a single gender.  But the identity type is still a binary function on the universe contexts and the genders.  This approach sucks in not indicating the extent of identification with a given gender self-description.
 
 \subsection{Definitions}
 \paragraph{A New Type for Gender}
@@ -452,6 +452,9 @@ Some flaws of this approach are as follows:
 module Attempt8 where
 \end{code}
 
+\subsection{Summary, Spoilers, and Such}
+This \AgdaFunction{AbstractGender} is \emph{very} similar to \hyperref[sec:gender7]{\AgdaFunction{Attempt7.AbstractGender}}, but \AgdaRecord{Gender.selfDescription} is a function from the gender self-descriptions to the unit interval, with the output indicating the extent of identification with the input gender self-description.  This approach \summaryLink{enum:gender8advantageExtent}{solves the extent problem}.
+
 \subsection{Definitions}
 
 \paragraph{Yet Another Type for Gender}
@@ -484,7 +487,7 @@ Again, pretty much exactly like in \fref{sec:gender6definition} --- actually, th
 Some advantages of this approach are as follows:
 
 \begin{enumerate}
-  \item This approach \emph{does} solve that identification extent problem which was described in \fref{enum:gender7flawExtent}.
+  \item This approach \emph{does} solve that identification extent problem which was described in \fref{enum:gender7flawExtent}.\label{enum:gender8advantageExtent}
 \end{enumerate}
 
 \printbibliography{}
