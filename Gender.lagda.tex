@@ -430,11 +430,43 @@ Some advantages of this approach are as follows:
   \item This approach solves the ``one description'' problem of \fref{enum:gender6flawsMultiDesc}.
 \end{enumerate}
 
-\subsection{Flaws}
+\subsection{Flaws}\label{sec:gender7flaws}
 Some flaws of this approach are as follows:
 
 \begin{enumerate}
   \item \AgdaRecord{Gender} does not indicate the \emph{extent} of identification with a given gender description.
+\end{enumerate}
+
+\section{The Interval Type for Gender}
+
+\begin{code}
+module Attempt8 where
+\end{code}
+
+\subsection{Definitions}
+
+\paragraph{Yet Another Type for Gender}
+In contrast with \AgdaFunction{Attempt7.Gender}, which does not indicate the extent of identification with a given gender description, one can say that for all genders \(g\), \(g\) is a unary function from the gender self-descriptions, i.e., \AgdaPostulate{String} terms, to the unit interval, with \(0\) indicating complete non-identification with a given description and \(1\) indicating total\footnote{Total identification with multiple distinct gender self-descriptions is possible.}  identification with a given description.  As Dear Reader may have expected, the other interval values are assigned linearly.  With this idea in mind, one can define an Agda type \AgdaRecord{Gender}, in which \AgdaField{Gender.selfDescriptions} serves as the container for these fancy ``\(g\)'' functions, as follows:
+
+\begin{code}
+  record Gender : SSet where
+    field
+      selfDescriptions : String → I
+\end{code}
+
+\paragraph{The Gender Identity Type}
+Again, pretty much exactly like in \fref{sec:gender6definition} --- actually, the definition is so similar that the author will, \emph{again}, not even bother with writing another semantic definition ---, one can define a gender identity type \AgdaFunction{AbstractGender} as follows:
+
+\begin{code}
+  AbstractGender : (u : Level) → SSet (lsuc u)
+  AbstractGender u = Set u → Gender → I
+\end{code}
+
+\subsection{Advantages}
+Some advantages of this approach are as follows:
+
+\begin{enumerate}
+  \item This approach \emph{does} solve that identification extent problem which was described in \fref{enum:gender7flawExtent}.
 \end{enumerate}
 
 \printbibliography{}
