@@ -314,7 +314,7 @@ Alternatively, gender identity can be represented as a binary predicate \(P\) on
   AbstractGender u = Set u → Attempt1.Gender → Set u
 \end{code}
 
-Much like the simpler \(P\), \AgdaFunction{AbstractGender} can be semantically defined as follows: For all universe levels \AgdaBound{u}, \AgdaFunction{AbstractGender} \AgdaBound{u} terms \AgdaBound{G}, and \glspl{gEntity} \(x\), \AgdaBound{G} is the gender identity of \(x\) if and only if for all universe contexts \AgdaBound{U} and genders \AgdaBound{g}, ``\AgdaBound{g} is a gender of \(x\) in context \AgdaBound{U}'' holds if and only \AgdaBound{G} \AgdaBound{U} \AgdaBound{g} is inhabited.
+Much like the simpler \(P\), \AgdaFunction{AbstractGender} can be semantically defined as follows: For all universe levels \AgdaBound{u}, \AgdaFunction{AbstractGender} \AgdaBound{u} terms \AgdaBound{G}, and \glspl{gEntity} \(x\), \AgdaBound{G} is the gender identity of \(x\) if and only if for all universe contexts \AgdaBound{U} and genders \AgdaBound{g}, ``\AgdaBound{g} is a gender of \(x\) in context \AgdaBound{U}'' holds if and only if \AgdaBound{G} \AgdaBound{U} \AgdaBound{g} is inhabited.
 
 \subsection{Flaws}
 A subset of the flaws of this approach is as follows:
@@ -408,7 +408,7 @@ This \AgdaFunction{AbstractGender} is quite similar to \hyperref[sec:gender6]{\A
 
 \subsection{Definitions}
 \paragraph{A New Type for Gender}
-In contrast with \AgdaFunction{Attempt1.Gender}, one can say that gender can be represented as a unary relation \(f\) on \AgdaPostulate{String} such that for all \(s\), \(f\ s\) is populated if and only if the use of \(s\) as a gender self-description for \(f\) is valid.  \AgdaRecord{Gender}, the Agda equivalent of \(f\), is defined as follows:
+In contrast with \AgdaFunction{Attempt1.Gender}, one can say that gender can be represented as a unary relation \(f\) on \AgdaPostulate{String} such that for all \(s\), \(f\ s\) is populated if and only if the use of \(s\) as a gender self-description for \(f\) is valid.  \AgdaRecord{Gender}, where \AgdaField{Gender.selfDescriptions} is the equivalent of \(f\), is defined as follows:
 
 \begin{code}
   record Gender : Set1 where
@@ -455,7 +455,7 @@ module Attempt8 where
 \subsection{Definitions}
 
 \paragraph{Yet Another Type for Gender}
-In contrast with \AgdaFunction{Attempt7.Gender}, which does not indicate the extent of identification with a given gender description, one can say that for all genders \(g\), \(g\) is a unary function from the gender self-descriptions, i.e., \AgdaPostulate{String} terms, to the unit interval, with \(0\) indicating complete non-identification with a given description and \(1\) indicating total\footnote{Total identification with multiple distinct gender self-descriptions is possible.}  identification with a given description.  As Dear Reader may have expected, the other interval values are assigned linearly.  With this idea in mind, one can define a type \AgdaRecord{Gender}, in which \AgdaField{Gender.selfDescriptions} serves as the container for these fancy ``\(g\)'' functions, as follows:
+In contrast with \AgdaFunction{Attempt7.Gender}, which does not indicate the extent of identification with a given gender description, one can say that for all genders \(g\), \(g\) is a unary function from the gender self-descriptions, i.e., \AgdaPostulate{String} terms, to the unit interval, with \(0\) indicating complete non-identification with a given description and \(1\) indicating total\footnote{Total identification with multiple distinct gender self-descriptions is possible.} identification with a given description.  As Dear Reader may have expected, the other interval values are assigned linearly.  With this idea in mind, one can define a type \AgdaRecord{Gender}, in which \AgdaField{Gender.selfDescriptions} serves as the container for these fancy ``\(g\)'' functions, as follows:
 
 \begin{code}
   record Gender : SSet where
