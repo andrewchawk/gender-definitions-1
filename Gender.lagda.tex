@@ -61,6 +61,7 @@
 \newunicodechar{ᵇ}{\ensuremath{\mathnormal{^\AgdaFontStyle{b}}}}
 \newunicodechar{∣}{\ensuremath{\mathnormal{\lvert}}}
 \newunicodechar{↭}{\ensuremath{\mathnormal{\leftrightsquigarrow}}}
+\newunicodechar{∀}{\ensuremath{\mathnormal{\forall}}}
 
 \newcommand{\category}[1]{\mathsf{#1}}
 
@@ -114,7 +115,7 @@ As one may have expected, this document makes use of some Agda primitives.  Alth
 
 \begin{code}
 open import Agda.Primitive.Cubical using (I)
-open import Agda.Primitive using (Level ; lsuc ; SSet)
+open import Agda.Primitive using (Level ; lsuc ; SSet ; _⊔_)
 \end{code}
 
 \subparagraph{The Agda Standard Library}
@@ -125,6 +126,9 @@ open import Data.String using (String)
 open import Data.Maybe using (Maybe)
 open import Data.List using (List)
 open import Data.Rational using (ℚ ; 0ℚ ; 1ℚ)
+open import Relation.Binary.PropositionalEquality using (_≡_)
+open import Data.List.Membership.Propositional using (_∈_)
+open import Data.Product using (Σ ; _,_)
 \end{code}
 
 \section{A Particularly Simple Definition}
@@ -428,8 +432,45 @@ Pretty much exactly like in \fref{sec:gender6definition} --- actually, the defin
 Some advantages of this approach are as follows:
 
 \begin{enumerate}
-  \item This approach solves the ``one description'' problem of \fref{enum:gender6flawsMultiDesc}.
+  \item \summaryLink{sec:gender7solutionOneDescription}{This approach solves the ``one description'' problem of \fref{enum:gender6flawsMultiDesc}.}
 \end{enumerate}
+
+\paragraph{``One Description'' Solution}\label{sec:gender7solutionOneDescription}
+
+\begin{theorem}
+  This approach solves the ``one description'' problem of \fref{enum:gender6flawsMultiDesc}.
+\end{theorem}
+\begin{proof}
+  This approach solves the ``one description'' problem of \fref{enum:gender6flawsMultiDesc} if for any given gender \(t\), there exists a term \AgdaBound{g} of type \AgdaRecord{Gender} such that for all valid self-descriptions of \(t\) \(s\), \AgdaBound{g} indicates that \(s\) is a valid self-description of \(t\).  For all \AgdaRecord{Gender} terms \AgdaBound{g} and gender self-descriptions \AgdaBound{s}, \AgdaField{gender.selfDescriptions} \AgdaBound{s} is populated only if \AgdaBound{s} is a valid gender-self-description for \AgdaBound{g}.  Similarly, where \(g_1\) denotes some arbitrary gender and \(S\ g_1\) is the list of all gender self-descriptions for \(g_1\), there exists a term \AgdaBound{g2} of type \AgdaRecord{Gender} such that for any given \AgdaBound{s}, \AgdaField{Gender.selfDescriptions} \AgdaBound{s} is populated if and only if \AgdaBound{s} is in \(S\ g_1\).  Therefore, this approach solves the ``one description'' problem of \fref{enum:gender6flawsMultiDesc}.
+\end{proof}
+
+\subparagraph{Formal Proof}
+A more formal equivalent of the proof is as follows:
+
+\begin{code}
+  private -- not used in any other part of this paper
+    record MatEq {l1 l2} (X : Set l1) (Y : Set l2) : Set (l1 ⊔ l2) where
+      field
+        imp1 : X → Y
+        imp2 : Y → X
+
+    solves-one-description-problem :
+      (l : List String) → -- list of gender self-descriptions
+      Σ Gender
+        (λ g → ∀ s → MatEq (s ∈ l) (Gender.selfDescriptions g s))
+
+    label-list-to-basic-gender :
+      (l : List String) → Gender
+    label-list-to-basic-gender l = record
+      { selfDescriptions = λ s → s ∈ l
+      }
+
+    solves-one-description-problem l = g , proof
+      where
+      g = label-list-to-basic-gender l
+      proof : (s : String) → MatEq (s ∈ l) (Gender.selfDescriptions g s)
+      proof s = record {imp1 = λ x → x ; imp2 = λ x → x}
+\end{code}
 
 \subsection{Flaws}\label{sec:gender7flaws}
 Some flaws of this approach are as follows:
