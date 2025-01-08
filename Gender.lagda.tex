@@ -437,6 +437,8 @@ Some advantages of this approach are as follows:
 
 \paragraph{``One Description'' Solution}\label{sec:gender7solutionOneDescription}
 
+\subparagraph{Informal Proof}\label{sec:gender7solutionOneProofInformal}
+
 \begin{theorem}
   This approach solves the ``one description'' problem of \fref{enum:gender6flawsMultiDesc}.
 \end{theorem}
@@ -444,8 +446,8 @@ Some advantages of this approach are as follows:
   This approach solves the ``one description'' problem of \fref{enum:gender6flawsMultiDesc} if for any given gender \(t\), there exists a term \AgdaBound{g} of type \AgdaRecord{Gender} such that for all valid self-descriptions of \(t\) \(s\), \AgdaBound{g} indicates that \(s\) is a valid self-description of \(t\).  For all \AgdaRecord{Gender} terms \AgdaBound{g} and gender self-descriptions \AgdaBound{s}, \AgdaField{gender.selfDescriptions} \AgdaBound{s} is populated only if \AgdaBound{s} is a valid gender-self-description for \AgdaBound{g}.  Similarly, where \(g_1\) denotes some arbitrary gender and \(S\ g_1\) is the list of all gender self-descriptions for \(g_1\), there exists a term \AgdaBound{g2} of type \AgdaRecord{Gender} such that for any given \AgdaBound{s}, \AgdaField{Gender.selfDescriptions} \AgdaBound{s} is populated if and only if \AgdaBound{s} is in \(S\ g_1\).  Therefore, this approach solves the ``one description'' problem of \fref{enum:gender6flawsMultiDesc}.
 \end{proof}
 
-\subparagraph{Formal Proof}
-A more formal equivalent of the proof is as follows:
+\subparagraph{Formal Proof}\label{sec:gender7solutionOneProofFormal}
+A more formal equivalent of the proof of \fref{sec:gender7solutionOneProofInformal} is as follows:
 
 \begin{code}
   private -- not used in any other part of this paper
@@ -459,8 +461,7 @@ A more formal equivalent of the proof is as follows:
       Σ Gender
         (λ g → ∀ s → MatEq (s ∈ l) (Gender.selfDescriptions g s))
 
-    label-list-to-basic-gender :
-      (l : List String) → Gender
+    label-list-to-basic-gender : (l : List String) → Gender
     label-list-to-basic-gender l = record
       { selfDescriptions = λ s → s ∈ l
       }
