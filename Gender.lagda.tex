@@ -500,20 +500,20 @@ This \AgdaFunction{AbstractGender} is \emph{very} similar to \hyperref[sec:gende
 \subsection{Definitions}
 
 \paragraph{Yet Another Type for Gender}
-In contrast with \AgdaFunction{Attempt7.Gender}, which does not indicate the extent of identification with a given gender description, one can say that for all genders \(g\), \(g\) is a unary function from the gender self-descriptions, i.e., \AgdaPostulate{String} terms, to the unit interval, with \(0\) indicating complete non-identification with a given description and \(1\) indicating total\footnote{Total identification with multiple distinct gender self-descriptions is possible.} identification with a given description.  As Dear Reader may have expected, the other interval values are assigned linearly.  With this idea in mind, one can define a type \AgdaRecord{Gender}, in which \AgdaField{Gender.selfDescriptions} serves as the container for these fancy ``\(g\)'' functions, as follows:
+In contrast with \AgdaFunction{Attempt7.Gender}, which does not indicate the extent of identification with a given gender description, one can say that for all genders \(g\), \(g\) is a unary function from the gender self-descriptions, i.e., \AgdaPostulate{String} terms, to the unit interval, with \(0\) indicating complete non-identification with a given description and \(1\) indicating total\footnote{Total identification with multiple distinct gender self-descriptions is possible.} identification with a given description.  As Dear Reader may have expected, the other interval values are assigned linearly.  With this idea in mind, one can define a type \AgdaRecord{Gender}, in which \AgdaField{Gender.identificationExtent} serves as the container for these fancy ``\(g\)'' functions, as follows:
 
 \begin{code}
   record Gender : SSet where
     field
-      selfDescriptions : String → I
+      identificationExtent : String → I
 \end{code}
 
 \subparagraph{A More Formal Semantic Definition of \AgdaRecord{Gender}}
 Possibly a bit more formally, one can say that for a given \AgdaRecord{Gender} term \AgdaBound{g} and a given gender self-description, i.e., string, \AgdaBound{s}, \AgdaBound{g} \AgdaBound{s} is the extent to which a \gls{gEntity} whose gender is \AgdaBound{g}\footnote{This phrasing is a bit informal.  Formally, one can say that for all \glspl{gEntity} \(x\) and genders \AgdaBound{g}, \AgdaBound{g} is the gender of \(x\) if and only if in all universe contexts, the following condition holds: \(x\) completely identifies with \AgdaBound{g}, and \AgdaBound{g} is the \emph{only} gender with which \(x\) identifies.} identifies with \AgdaBound{s}.  Accordingly, for all \AgdaRecord{Gender} terms \AgdaBound{g} and gender self-descriptions, i.e., strings, \AgdaBound{s}, the following conditions apply:
 
 \begin{enumerate}
-  \item \AgdaField{Gender.selfDescriptions} \AgdaBound{g} \AgdaBound{s} is \AgdaInductiveConstructor{Agda.Primitive.Cubical.i0} if and only if for all \glspl{gEntity} \(x\), \AgdaBound{g} is the gender of \(x\) if and only if \(x\) does not at all identify with \AgdaBound{s}.
-  \item \AgdaField{Gender.selfDescriptions} \AgdaBound{g} \AgdaBound{s} is \AgdaInductiveConstructor{Agda.Primitive.Cubical.i1} if and only if for all \glspl{gEntity} \(x\), \AgdaBound{g} is the gender of \(x\) if and only if \(x\) completely identifies with \AgdaBound{s}.
+  \item \AgdaField{Gender.identificationExtent} \AgdaBound{g} \AgdaBound{s} is \AgdaInductiveConstructor{Agda.Primitive.Cubical.i0} if and only if for all \glspl{gEntity} \(x\), \AgdaBound{g} is the gender of \(x\) if and only if \(x\) does not at all identify with \AgdaBound{s}.
+  \item \AgdaField{Gender.identificationExtent} \AgdaBound{g} \AgdaBound{s} is \AgdaInductiveConstructor{Agda.Primitive.Cubical.i1} if and only if for all \glspl{gEntity} \(x\), \AgdaBound{g} is the gender of \(x\) if and only if \(x\) completely identifies with \AgdaBound{s}.
   \item Other values are assigned linearly.
 \end{enumerate}
 
