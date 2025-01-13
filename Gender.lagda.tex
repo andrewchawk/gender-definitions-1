@@ -281,7 +281,7 @@ Semantically, one can say that the \AgdaFunction{AbstractGender} of a given \gls
 \begin{enumerate}
   \item Agender \glspl{gEntity}' \AgdaFunction{AbstractGender} is the empty list, i.e., \AgdaInductiveConstructor{[]}.
   \item A given \gls{gEntity} \(x\) has exactly one gender \AgdaBound{g} if and only if the \AgdaFunction{AbstractGender} for \(x\) is \AgdaOperator{\AgdaFunction{[}} \AgdaBound{g} \AgdaOperator{\AgdaFunction{]}}, i.e., the singleton list which contains \AgdaBound{g}.
-  \item A given \gls{gEntity} \(x\) has \(n\) genders, where \(n > 1\), only if the \AgdaFunction{AbstractGender} for \(x\) is a list of all genders of \(x\).\footnote{All right, this one is damn near just a repeat of the beginning of this paragraph.  Twenty lashes for the author!}
+  \item A given \gls{gEntity} \(x\) has \(n\) genders, where \(n > 1\), if and only if the \AgdaFunction{AbstractGender} for \(x\) is a list of all genders of \(x\).\footnote{All right, this one is damn near just a repeat of the beginning of this paragraph.  Twenty lashes for the author!}
 \end{enumerate}
 
 \subsection{Flaws}\label{sec:gender3flaws}
