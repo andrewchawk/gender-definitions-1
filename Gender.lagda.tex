@@ -455,6 +455,8 @@ A more formal equivalent of the proof of \fref{sec:gender7solutionOneProofInform
       field
         imp1 : X → Y
         imp2 : Y → X
+        Y-to-X-to-Y : (y : Y) → imp1 (imp2 y) ≡ y
+        X-to-Y-to-X : (x : X) → imp2 (imp1 x) ≡ x
 
     solves-one-description-problem :
       (l : List String) → -- list of gender self-descriptions
@@ -470,7 +472,12 @@ A more formal equivalent of the proof of \fref{sec:gender7solutionOneProofInform
       where
       g = label-list-to-basic-gender l
       proof : (s : String) → MatEq (s ∈ l) (Gender.selfDescriptions g s)
-      proof s = record {imp1 = λ x → x ; imp2 = λ x → x}
+      proof s = record
+        { imp1 = λ x → x
+        ; imp2 = λ x → x
+        ; X-to-Y-to-X = λ x → _≡_.refl
+        ; Y-to-X-to-Y = λ y → _≡_.refl
+        }
 \end{code}
 
 \subsection{Flaws}\label{sec:gender7flaws}
