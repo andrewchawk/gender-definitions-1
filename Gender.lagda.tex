@@ -114,7 +114,6 @@ module Gender where
 As one may have expected, this document uses some Agda primitives.  Although using such primitives without explicit ``\AgdaKeyword{import}'' statements is possible, such usage demands the use of fully-qualified identifiers, and the resulting verbosity irritates the author, who, accordingly, has decided to use some ``\AgdaKeyword{open} \AgdaKeyword{import}'' statements to decrease such verbosity.  Anyway, a brief listing or such of the primitives which are used is as follows:
 
 \begin{code}
-open import Agda.Primitive.Cubical using (I ; i0 ; i1)
 open import Agda.Primitive using (Level ; lsuc ; SSet ; _⊔_ ; lzero)
 \end{code}
 
@@ -129,6 +128,36 @@ open import Data.Rational using (ℚ ; 0ℚ ; 1ℚ)
 open import Relation.Binary.PropositionalEquality using (_≡_)
 open import Data.List.Membership.Propositional using (_∈_)
 open import Data.Product using (Σ ; _,_)
+open import Relation.Nullary.Decidable using (from-yes)
+import Data.Rational.Properties as RatProp
+\end{code}
+
+\section{Supporting Types}
+
+\subsection{The Unit Interval Type}
+Basically, \AgdaDatatype{I} is the real-valued unit interval type.  More formally, one can say that for all values \AgdaBound{x} of type \AgdaDatatype{I}, \AgdaBound{x} is --- or represents, according to \emph{some people} --- some real number which is less than or equal to one and is greater than or equal to zero.
+
+\AgdaInductiveConstructor{from-rational} is good for constructing simple \AgdaDatatype{I} terms; \AgdaInductiveConstructor{from-rational} \AgdaBound{q} \AgdaBound{lt1} \AgdaBound{lt2} is numerically equal to \AgdaBound{q}.
+
+\begin{code}
+data I : Set where
+  from-rational :
+    (q : ℚ) → q Data.Rational.≤ 1ℚ → 0ℚ Data.Rational.≤ q → I
+\end{code}
+
+\paragraph{Extremes}
+\AgdaFunction{i0} and \AgdaFunction{i1}, which are numerically equal to zero and one, respectively, are defined as follows:
+
+\begin{code}
+i0 : I
+i0 = from-rational 0ℚ
+                   (from-yes (0ℚ Data.Rational.≤? 1ℚ))
+                   (RatProp.≤-reflexive _≡_.refl)
+
+i1 : I
+i1 = from-rational 1ℚ
+                   (RatProp.≤-reflexive _≡_.refl)
+                   (from-yes (0ℚ Data.Rational.≤? 1ℚ))
 \end{code}
 
 \section{A Particularly Simple Definition}
@@ -388,7 +417,7 @@ module Attempt6 where
 Much like whoever thought that \AgdaFunction{Attempt5.AbstractGender} is a good idea, one can say that gender identity can be represented as a real-unit-interval-valued binary function \(G\) such that for all \glspl{gEntity} \(x\), \(G\) is the gender identity of \(x\) if and only if for all genders \(g\) and universe contexts \(U\), the extent of \(x\)'s identification with \(g\) in \(U\) is \(G\ U\ g\).  One can define a corresponding Agda function \AgdaFunction{AbstractGender} as follows:
 
 \begin{code}
-  AbstractGender : {u : Level} → Set u → SSet u
+  AbstractGender : {u : Level} → Set u → Set u
   AbstractGender {u} UC = UC → Attempt1.Gender → I
 \end{code}
 
@@ -424,7 +453,7 @@ In contrast with \AgdaFunction{Attempt1.Gender}, one can say that gender can be 
 Pretty much exactly like in \fref{sec:gender6definition} --- actually, the definition is so similar that the author will not even bother with writing another semantic definition ---, one can define a gender identity type \AgdaFunction{AbstractGender} as follows:
 
 \begin{code}
-  AbstractGender : {u : Level} → Set u → SSet (u ⊔ lsuc lzero)
+  AbstractGender : {u : Level} → Set u → Set (u ⊔ lsuc lzero)
   AbstractGender {u} UC = UC → Gender → I
 \end{code}
 
@@ -510,7 +539,7 @@ This \AgdaFunction{AbstractGender} is \emph{very} similar to \hyperref[sec:gende
 In contrast with \AgdaFunction{Attempt7.Gender}, which does not indicate the extent of identification with a given gender description, one can say that for all genders \(g\), \(g\) is a unary function from the gender self-descriptions, i.e., \AgdaPostulate{String} terms, to the unit interval, with \(0\) indicating complete non-identification with a given description and \(1\) indicating total\footnote{Total identification with multiple distinct gender self-descriptions is possible.} identification with a given description.  As Dear Reader may have expected, the other interval values are assigned linearly.  With this idea in mind, one can define a type \AgdaRecord{Gender}, in which \AgdaField{Gender.identificationExtent} serves as the container for these fancy ``\(g\)'' functions, as follows:
 
 \begin{code}
-  record Gender : SSet where
+  record Gender : Set where
     field
       identificationExtent : String → I
 \end{code}
@@ -528,7 +557,7 @@ Possibly a bit more formally, one can say that for a given \AgdaRecord{Gender} t
 Again, pretty much exactly like in \fref{sec:gender6definition} --- actually, the definition is so similar that the author will, \emph{again}, not even bother with writing another semantic definition ---, one can define a gender identity type \AgdaFunction{AbstractGender} as follows:
 
 \begin{code}
-  AbstractGender : {u : Level} → Set u → SSet u
+  AbstractGender : {u : Level} → Set u → Set u
   AbstractGender {u} UC = UC → Gender → I
 \end{code}
 
