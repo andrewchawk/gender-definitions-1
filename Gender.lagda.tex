@@ -589,8 +589,8 @@ Formally, one can say that the male gender-identity, i.e., ``abstract gender'', 
 
       Correct : Set u
       Correct = ((uc : UC) → maleIdentity uc male ≡ i1)
-              × ( (g : Gender) → g ≢ male → (uc : UC)
-                → maleIdentity uc g ≡ i0)
+              × ((g : Gender) → g ≢ male → (uc : UC) →
+                 maleIdentity uc g ≡ i0)
 \end{code}
 
 \paragraph{The Female Identity}\label{sec:gender8exampleIdentityFemale}
@@ -605,8 +605,8 @@ Formally, one can say that the male gender-identity, i.e., ``abstract gender'', 
 
       Correct : Set u
       Correct = ((uc : UC) → femaleIdentity uc female ≡ i1)
-              × ( (g : Gender) → g ≢ female → (uc : UC)
-                → femaleIdentity uc g ≡ i0)
+              × ((g : Gender) → g ≢ female → (uc : UC) →
+                 femaleIdentity uc g ≡ i0)
 \end{code}
 
 \paragraph{The Generic One-Gender Identity}
