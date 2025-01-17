@@ -422,7 +422,7 @@ Much like whoever thought that \AgdaFunction{Attempt5.AbstractGender} is a good 
   AbstractGender {u} UC = UC → Attempt1.Gender → I
 \end{code}
 
-Once again, the Agda version is essentially just a universe-polymorphic equivalent of the non-Agda function.  More formally, one, e.g., the author, who is sick of writing this boilerplate-like stuff, can say that for all \glspl{gEntity} \(x\), levels \AgdaBound{u}, \AgdaBound{u}-universe-context types \AgdaBound{UC}, and \AgdaFunction{AbstractGender} \AgdaBound{UC} terms \AgdaBound{G}, \AgdaBound{G} is the gender identity of \(x\) if and only if for all appropriate \AgdaBound{U} and \AgdaBound{g}, the extent to which \(x\) identifies with \AgdaBound{g} in \AgdaBound{U} is \AgdaBound{G} \AgdaBound{U} \AgdaBound{g}, where \AgdaInductiveConstructor{i0} and \AgdaInductiveConstructor{Agda.Primitive.Cubical.i1} indicate complete non-identification and total identification with \AgdaBound{g}, respectively, and other \AgdaDatatype{I} values are assigned linearly.
+Once again, the Agda version is essentially just a universe-polymorphic equivalent of the non-Agda function.  More formally, one, e.g., the author, who is sick of writing this boilerplate-like stuff, can say that for all \glspl{gEntity} \(x\), levels \AgdaBound{u}, \AgdaBound{u}-universe-context types \AgdaBound{UC}, and \AgdaFunction{AbstractGender} \AgdaBound{UC} terms \AgdaBound{G}, \AgdaBound{G} is the gender identity of \(x\) if and only if for all appropriate \AgdaBound{U} and \AgdaBound{g}, the extent to which \(x\) identifies with \AgdaBound{g} in \AgdaBound{U} is \AgdaBound{G} \AgdaBound{U} \AgdaBound{g}, where \AgdaFunction{i0} and \AgdaFunction{Agdai1} indicate complete non-identification and total identification with \AgdaBound{g}, respectively, and other \AgdaDatatype{I} values are assigned linearly.
 
 \subsection{Flaws}\label{sec:gender6flaws}
 Some flaws of this approach are as follows:
@@ -550,8 +550,8 @@ In contrast with \AgdaFunction{Attempt7.Gender}, which does not indicate the ext
 Possibly a bit more formally, one can say that for a given \AgdaRecord{Gender} term \AgdaBound{g} and a given gender self-description, i.e., string, \AgdaBound{s}, \AgdaBound{g} \AgdaBound{s} is the extent to which a \gls{gEntity} whose gender is \AgdaBound{g}\footnote{This phrasing is a bit informal.  Formally, one can say that for all \glspl{gEntity} \(x\) and genders \AgdaBound{g}, \AgdaBound{g} is the gender of \(x\) if and only if in all universe contexts, the following condition holds: \(x\) completely identifies with \AgdaBound{g}, and \AgdaBound{g} is the \emph{only} gender with which \(x\) identifies.} identifies with \AgdaBound{s}.  Accordingly, for all \AgdaRecord{Gender} terms \AgdaBound{g} and gender self-descriptions, i.e., strings, \AgdaBound{s}, the following conditions apply:
 
 \begin{enumerate}
-  \item \AgdaField{Gender.identificationExtent} \AgdaBound{g} \AgdaBound{s} is \AgdaInductiveConstructor{i0} if and only if for all \glspl{gEntity} \(x\), \AgdaBound{g} is the gender of \(x\) if and only if \(x\) does not at all identify with \AgdaBound{s}.
-  \item \AgdaField{Gender.identificationExtent} \AgdaBound{g} \AgdaBound{s} is \AgdaInductiveConstructor{i1} if and only if for all \glspl{gEntity} \(x\), \AgdaBound{g} is the gender of \(x\) if and only if \(x\) completely identifies with \AgdaBound{s}.
+  \item \AgdaField{Gender.identificationExtent} \AgdaBound{g} \AgdaBound{s} is \AgdaFunction{i0} if and only if for all \glspl{gEntity} \(x\), \AgdaBound{g} is the gender of \(x\) if and only if \(x\) does not at all identify with \AgdaBound{s}.
+  \item \AgdaField{Gender.identificationExtent} \AgdaBound{g} \AgdaBound{s} is \AgdaFunction{i1} if and only if for all \glspl{gEntity} \(x\), \AgdaBound{g} is the gender of \(x\) if and only if \(x\) completely identifies with \AgdaBound{s}.
   \item Other values are assigned linearly.
 \end{enumerate}
 
@@ -570,7 +570,7 @@ Again, pretty much exactly like in \fref{sec:gender6definition} --- actually, th
 \end{code}
 
 \paragraph{Agender Identity}
-The basic agender gender identity is simple in that this identity is materially equivalent to never identifying with any gender.  A bit more formally, one can say that for all \glspl{gEntity} \(x\), genders \(g\), and universe contexts \(U\), in \(U\), \(x\) does not at all identify with \(g\).  One who remembers that \AgdaInductiveConstructor{i0} is used to represent complete non-identification can translate that more formal definition like so:
+The basic agender gender-identity is simple in being materially equivalent to never identifying with any gender.  A bit more formally, one can say that for all \glspl{gEntity} \(x\), \(x\) is agender if and only if for all genders \(g\) and universe contexts \(U\), in \(U\), \(x\) does not at all identify with \(g\).  One who remembers that \AgdaFunction{i0} is used to represent complete non-identification can translate that more formal definition like so:
 
 \begin{code}
     agender : {u : Level} → (UC : Set u) → AbstractGender UC
@@ -578,7 +578,7 @@ The basic agender gender identity is simple in that this identity is materially 
 \end{code}
 
 \paragraph{The Male Identity}\label{sec:gender8exampleIdentityMale}
-Formally, one can say that the male gender-identity, i.e., ``abstract gender'', can be represented as a function which, for all relevant universe contexts, returns one or zero if the input gender is the male gender or is not the male gender, respectively.  Listing all self-descriptions of the male gender is beyond the scope of this paper,\footnote{Such listing is beyond the scope \emph{for now}.} so the author has chosen to use a \AgdaKeyword{module}based approach.  Basically, there exists a type function \AgdaRecord{MaleIdentity.Correct} such that for any given gender identity \AgdaBound{G}, universe level \AgdaBound{u}, and \AgdaBound{u}-level-universe-context type \AgdaBound{UC}, \AgdaRecord{MaleIdentity.Correct} \AgdaBound{UC} \AgdaBound{male} \AgdaBound{G} is populated if and only if \AgdaBound{G} is the male identity, where \AgdaBound{male} is the male gender.  \AgdaRecord{MaleIdentity.Correct} is defined as follows:
+Formally, one can say that the male gender-identity, i.e., ``abstract gender'', can be represented as a function which, for all relevant universe contexts, returns one or zero if the input gender is the male gender or is not the male gender, respectively.  Listing all self-descriptions of the male gender is beyond the scope of this paper,\footnote{Such listing is beyond the scope \emph{for now}.} so the author has chosen to use a \AgdaKeyword{module}-based approach.  Basically, there exists a type function \AgdaRecord{MaleIdentity.Correct} such that for any given gender identity \AgdaBound{G}, universe level \AgdaBound{u}, and \AgdaBound{u}-level-universe-context type \AgdaBound{UC}, \AgdaRecord{MaleIdentity.Correct} \AgdaBound{UC} \AgdaBound{male} \AgdaBound{G} is populated if and only if \AgdaBound{G} is the male gender-identity, where \AgdaBound{male} is the male gender.  \AgdaRecord{MaleIdentity.Correct} is defined as follows:
 
 \begin{code}
     module MaleIdentity
