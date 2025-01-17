@@ -95,10 +95,10 @@ In this paper, the author tries to use Agda to define a gender identity type \(G
 \subsection{Stuff for Agda}
 
 \paragraph{Options}
-The following Agda blip indicates that this whole document is safe, i.e., does not use \AgdaKeyword{postulate}s or anything of the sort, and uses Cubical Agda.
+The following Agda blip indicates that this whole document is safe, i.e., does not use \AgdaKeyword{postulate}s or anything of the sort.
 
 \begin{code}
-{-# OPTIONS --safe --cubical #-}
+{-# OPTIONS --safe #-}
 \end{code}
 
 \paragraph{The Module Header}
@@ -125,9 +125,10 @@ open import Data.String using (String)
 open import Data.Maybe using (Maybe)
 open import Data.List using (List)
 open import Data.Rational using (ℚ ; 0ℚ ; 1ℚ)
-open import Relation.Binary.PropositionalEquality using (_≡_)
+open import Relation.Binary.PropositionalEquality using (_≡_ ; _≢_)
 open import Data.List.Membership.Propositional using (_∈_)
-open import Data.Product using (Σ ; _,_)
+open import Data.List.Relation.Unary.All using (All)
+open import Data.Product using (Σ ; _,_ ; _×_)
 open import Relation.Nullary.Decidable using (from-yes)
 import Data.Rational.Properties as RatProp
 \end{code}
@@ -421,7 +422,7 @@ Much like whoever thought that \AgdaFunction{Attempt5.AbstractGender} is a good 
   AbstractGender {u} UC = UC → Attempt1.Gender → I
 \end{code}
 
-Once again, the Agda version is essentially just a universe-polymorphic equivalent of the non-Agda function.  More formally, one, e.g., the author, who is sick of writing this boilerplate-like stuff, can say that for all \glspl{gEntity} \(x\), levels \AgdaBound{u}, \AgdaBound{u}-universe-context types \AgdaBound{UC}, and \AgdaFunction{AbstractGender} \AgdaBound{UC} terms \AgdaBound{G}, \AgdaBound{G} is the gender identity of \(x\) if and only if for all appropriate \AgdaBound{U} and \AgdaBound{g}, the extent to which \(x\) identifies with \AgdaBound{g} in \AgdaBound{U} is \AgdaBound{G} \AgdaBound{U} \AgdaBound{g}, where \AgdaInductiveConstructor{i0} and \AgdaInductiveConstructor{gi1} indicate complete non-identification and total identification with \AgdaBound{g}, respectively, and other \AgdaDatatype{I} values are assigned linearly.
+Once again, the Agda version is essentially just a universe-polymorphic equivalent of the non-Agda function.  More formally, one, e.g., the author, who is sick of writing this boilerplate-like stuff, can say that for all \glspl{gEntity} \(x\), levels \AgdaBound{u}, \AgdaBound{u}-universe-context types \AgdaBound{UC}, and \AgdaFunction{AbstractGender} \AgdaBound{UC} terms \AgdaBound{G}, \AgdaBound{G} is the gender identity of \(x\) if and only if for all appropriate \AgdaBound{U} and \AgdaBound{g}, the extent to which \(x\) identifies with \AgdaBound{g} in \AgdaBound{U} is \AgdaBound{G} \AgdaBound{U} \AgdaBound{g}, where \AgdaInductiveConstructor{i0} and \AgdaInductiveConstructor{Agda.Primitive.Cubical.i1} indicate complete non-identification and total identification with \AgdaBound{g}, respectively, and other \AgdaDatatype{I} values are assigned linearly.
 
 \subsection{Flaws}\label{sec:gender6flaws}
 Some flaws of this approach are as follows:
@@ -499,6 +500,7 @@ A more formal equivalent of the proof of \fref{sec:gender7solutionOneProofInform
 
     solves-one-description-problem l = g , proof
       where
+      g : Gender
       g = label-list-to-basic-gender l
       proof : (s : String) → MatEq (s ∈ l) (Gender.selfDescriptions g s)
       proof s = record
@@ -559,6 +561,101 @@ Again, pretty much exactly like in \fref{sec:gender6definition} --- actually, th
 \begin{code}
   AbstractGender : {u : Level} → Set u → Set u
   AbstractGender {u} UC = UC → Gender → I
+\end{code}
+
+\subsection{Some Examples}
+
+\begin{code}
+  module SpecificInstance where
+\end{code}
+
+\paragraph{Agender Identity}
+The basic agender gender identity is simple in that this identity is materially equivalent to never identifying with any gender.  A bit more formally, one can say that for all \glspl{gEntity} \(x\), genders \(g\), and universe contexts \(U\), in \(U\), \(x\) does not at all identify with \(g\).  One who remembers that \AgdaInductiveConstructor{i0} is used to represent complete non-identification can translate that more formal definition like so:
+
+\begin{code}
+    agender : {u : Level} → (UC : Set u) → AbstractGender UC
+    agender U u g = i0
+\end{code}
+
+\paragraph{The Male Identity}\label{sec:gender8exampleIdentityMale}
+Formally, one can say that the male gender-identity, i.e., ``abstract gender'', can be represented as a function which, for all relevant universe contexts, returns one or zero if the input gender is the male gender or is not the male gender, respectively.  Listing all self-descriptions of the male gender is beyond the scope of this paper,\footnote{Such listing is beyond the scope \emph{for now}.} so the author has chosen to use a \AgdaKeyword{module}based approach.  Basically, there exists a type function \AgdaRecord{MaleIdentity.Correct} such that for any given gender identity \AgdaBound{G}, universe level \AgdaBound{u}, and \AgdaBound{u}-level-universe-context type \AgdaBound{UC}, \AgdaRecord{MaleIdentity.Correct} \AgdaBound{UC} \AgdaBound{male} \AgdaBound{G} is populated if and only if \AgdaBound{G} is the male identity, where \AgdaBound{male} is the male gender.  \AgdaRecord{MaleIdentity.Correct} is defined as follows:
+
+\begin{code}
+    module MaleIdentity
+           {u : Level}
+           (UC : Set u)
+           (male : Gender)
+           (maleIdentity : AbstractGender UC) where
+
+      Correct : Set u
+      Correct = ((uc : UC) → maleIdentity uc male ≡ i1)
+              × ( (g : Gender) → g ≢ male → (uc : UC)
+                → maleIdentity uc g ≡ i0)
+\end{code}
+
+\paragraph{The Female Identity}\label{sec:gender8exampleIdentityFemale}
+\AgdaModule{FemaleIdentity} is pretty much just \AgdaModule{MaleIdentity}, but ``female'' has replaced ``male''.  Once again, this module is so similar that the author recommends just reading the stuff in \fref{sec:gender8exampleIdentityMale}.
+
+\begin{code}
+    module FemaleIdentity
+           {u : Level}
+           (UC : Set u)
+           (female : Gender)
+           (femaleIdentity : AbstractGender UC) where
+
+      Correct : Set u
+      Correct = ((uc : UC) → femaleIdentity uc female ≡ i1)
+              × ( (g : Gender) → g ≢ female → (uc : UC)
+                → femaleIdentity uc g ≡ i0)
+\end{code}
+
+\paragraph{The Generic One-Gender Identity}
+As indicated by the sarcastic not-a-sematic-definition in \fref{sec:gender8exampleIdentityFemale}, \AgdaFunction{AbstractGender}'s representations of the female gender-identity and the male gender-identity are very similar --- in fact, only the names of the variables differ.  Accordingly, one, e.g., the author, can abstract the variable names to indicate that \AgdaFunction{Correct} can hold proofs regarding \emph{any} appropriate gender-identity's being a one-gender gender-identity.  Accordingly still, the author has defined \AgdaFunction{OneGenderIdentity.Correct} as follows:
+
+\begin{code}
+    module OneGenderIdentity
+           {u : Level}
+           (UC : Set u)
+           (g : Gender) -- generic
+           (G : AbstractGender UC) where
+
+      Correct : Set u
+      Correct = ∀ uc → (G uc g ≡ i1) × (∀ h → h ≢ g → G uc h ≡ i0)
+\end{code}
+
+\paragraph{Genderfluid Verification}
+If\footnote{This ``if'' structuring replaced an ``assuming that'' structuring because the author thought that the ``if'' sentence would be more easily parsed.  The ``if'' still implies assumption.} \(G\) is a gender identity such that for all \glspl{gEntity} \(x\), if \(G\) is the gender identity of \(x\), then \(x\) totally identifies with gender \(g_1\), \(g_2\), and \(g_3\) at contexts \(C_1\), \(C_2\), and \(C_3\) but does not identify with any gender in contexts \(c\) for \(C\ c\), then one can write a set of constraints which describe \(G\) like so:
+
+\begin{code}
+    module GenderFluidRestriction1 where
+      module Constraints
+             (u v : Level)
+             (UC : Set u)
+             (c1 c2 c3 : UC)
+             (g1 g2 g3 : Gender)
+             (C : UC → Set v) where
+
+        Correct : AbstractGender UC → Set (u ⊔ v)
+        Correct G = i1 ≡ G c1 g1
+                  × i1 ≡ G c2 g2
+                  × i1 ≡ G c3 g3
+                  × ((c : UC) → C c → (g : Gender) → i0 ≡ G c g)
+\end{code}
+
+\paragraph{Genderfluid Verification 2}
+One can do a bit of abstraction on the previous try, yielding the following result:
+
+\begin{code}
+    module GenderFluidRestriction2 where
+      module Constraints
+             (u v : Level)
+             (UC : Set u)
+             (l : List (UC × Gender))
+             (C : UC → Set v) where
+
+        Correct : AbstractGender UC → Set (u ⊔ v)
+        Correct G = All (λ (c , g) → i1 ≡ G c g) l
+                  × ((c : UC) → C c → (g : Gender) → i0 ≡ G c g)
 \end{code}
 
 \subsection{Advantages}
