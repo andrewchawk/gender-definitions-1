@@ -577,6 +577,14 @@ The basic agender gender-identity is simple in being materially equivalent to ne
     agender U u g = i0
 \end{code}
 
+\paragraph{The Basic Pangender-Identity}
+Where \(P\) denotes the pangender gender-identity which is particularly basic, \(P\) is such that for all \glspl{gEntity} \(x\), \(P\) is the gender identity of \(x\) if and only if in every appropriate universe-context, \(P\) completely identifies with every gender.  Much like \AgdaFunction{agender} of \fref{sec:gender8exampleIdentityAgender}, translating this representation is pretty easy.  Accordingly, the author has structurally defined \AgdaFunction{basicPangender}, which corresponds to \(P\), as follows:
+
+\begin{code}
+    basicPangender : {u : Level} → (UC : Set u) → AbstractGender UC
+    basicPangender U u g = i1
+\end{code}
+
 \paragraph{The Male Identity}\label{sec:gender8exampleIdentityMale}
 Formally, one can say that the male gender-identity, i.e., ``abstract gender'', can be represented as a function which, for all relevant universe contexts, returns one or zero if the input gender is the male gender or is not the male gender, respectively.  Listing all self-descriptions of the male gender is beyond the scope of this paper,\footnote{Such listing is beyond the scope \emph{for now}.} so the author has chosen to use a \AgdaKeyword{module}-based approach.  Basically, there exists a type function \AgdaRecord{MaleIdentity.Correct} such that for any given gender identity \AgdaBound{G}, universe level \AgdaBound{u}, and \AgdaBound{u}-level-universe-context type \AgdaBound{UC}, \AgdaRecord{MaleIdentity.Correct} \AgdaBound{UC} \AgdaBound{male} \AgdaBound{G} is populated if and only if \AgdaBound{G} is the male gender-identity, where \AgdaBound{male} is the male gender.  \AgdaRecord{MaleIdentity.Correct} is defined as follows:
 
