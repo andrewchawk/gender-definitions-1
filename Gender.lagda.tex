@@ -577,7 +577,7 @@ The basic agender gender-identity is simple in being materially equivalent to ne
     agender U u g = i0
 \end{code}
 
-\paragraph{The Basic Pangender-Identity}
+\paragraph{The Basic Pangender-Identity}\label{sec:gender8exampleIdentityPangenderBasic}
 Where \(P\) denotes the pangender gender-identity which is particularly basic, \(P\) is such that for all \glspl{gEntity} \(x\), \(P\) is the gender identity of \(x\) if and only if in every appropriate universe-context, \(P\) completely identifies with every gender.  Much like \AgdaFunction{agender} of \fref{sec:gender8exampleIdentityAgender}, translating this representation is pretty easy.  Accordingly, the author has structurally defined \AgdaFunction{basicPangender}, which corresponds to \(P\), as follows:
 
 \begin{code}
@@ -664,6 +664,24 @@ One can do a bit of abstraction on the previous try, yielding the following resu
         Correct : AbstractGender UC → Set (u ⊔ v)
         Correct G = All (λ (c , g) → i1 ≡ G c g) l
                   × ((c : UC) → C c → (g : Gender) → i0 ≡ G c g)
+\end{code}
+
+\paragraph{A More Generic Pangender Type}
+In contrast with the pangender term of \fref{sec:gender8exampleIdentityPangenderBasic}, one can say that for any given \glspl{gEntity} \(x\), the gender identity of \(x\) is a pangender identity if and only if for any universe context \(u\) and gender \(g\), in \(u\), the extent to which \(x\) identifies with \(g\) is nonzero.  Using Agda, one can write a more succinct definition like so:
+
+\begin{code}
+    module _ {u : Level} {UC : Set u} where
+      Pangender : AbstractGender UC → Set u
+      Pangender G = ∀ g c → i0 ≢ G g c
+\end{code}
+
+\subparagraph{Proof of \AgdaFunction{basicPangender}'s Pangender Nature}
+Also, using \AgdaFunction{Pangender}, one can prove that \AgdaFunction{basicPangender} terms \emph{do} actually represent pangender identities.  One such proof is as follows:
+
+\begin{code}
+    basicPangender-is-pangender-identity :
+      {u : Level} → {UC : Set u} → Pangender (basicPangender UC)
+    basicPangender-is-pangender-identity g c ()
 \end{code}
 
 \subsection{Advantages}
