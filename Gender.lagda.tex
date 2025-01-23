@@ -618,17 +618,13 @@ Formally, one can say that the male gender-identity, i.e., ``abstract gender'', 
 \end{code}
 
 \paragraph{The Generic One-Gender Identity}
-As indicated by the sarcastic not-a-sematic-definition in \fref{sec:gender8exampleIdentityFemale}, \AgdaFunction{AbstractGender}'s representations of the female gender-identity and the male gender-identity are very similar --- in fact, only the names of the variables differ.  Accordingly, one, e.g., the author, can abstract the variable names to indicate that \AgdaFunction{Correct} can hold proofs regarding \emph{any} appropriate gender-identity's being a one-gender gender-identity.  Accordingly still, the author has defined \AgdaFunction{OneGenderIdentity.Correct} as follows:
+As indicated by the sarcastic not-a-sematic-definition in \fref{sec:gender8exampleIdentityFemale}, \AgdaFunction{AbstractGender}'s representations of the female gender-identity and the male gender-identity are very similar --- in fact, only the names of the variables differ.  Accordingly, one, e.g., the author, can abstract the variable names to indicate that \AgdaFunction{Correct} can hold proofs regarding \emph{any} appropriate gender-identity's being a one-gender gender-identity.  Accordingly still, the author has defined \AgdaFunction{OneGenderIdentity} as follows:
 
 \begin{code}
-    module OneGenderIdentity
-           {u : Level}
-           (UC : Set u)
-           (g : Gender) -- generic
-           (G : AbstractGender UC) where
-
-      Correct : Set u
-      Correct = ∀ uc → (G uc g ≡ i1) × (∀ h → h ≢ g → G uc h ≡ i0)
+    module _ {u : Level} {UC : Set u} where
+      OneGenderIdentity : Gender → AbstractGender UC → Set u
+      OneGenderIdentity g G =
+        ∀ uc → (G uc g ≡ i1) × (∀ h → h ≢ g → G uc h ≡ i0)
 \end{code}
 
 \paragraph{Genderfluid Verification}
