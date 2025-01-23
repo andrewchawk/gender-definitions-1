@@ -390,7 +390,7 @@ Alternatively \emph{still} --- ooh-wee ---, one can say that gender identity is 
       less : q Data.Rational.≤ 1ℚ
 
   AbstractGender : {u : Level} → Set u → Set u
-  AbstractGender {u} UC = UC → Attempt1.Gender → Unitℚ
+  AbstractGender UC = UC → Attempt1.Gender → Unitℚ
 \end{code}
 
 For \AgdaFunction{AbstractGender}, one can \emph{so informally} say that for all levels \AgdaBound{u}, \glspl{gEntity} \(x\), \AgdaBound{u}-universe-context types \AgdaBound{UC}, and \AgdaFunction{AbstractGender} \AgdaBound{UC} terms \AgdaBound{G}, \AgdaBound{G} is the gender identity of \(x\) if and only if for all relevant universe-contexts \AgdaBound{U} and genders \AgdaBound{g}, the extent to which \(x\), in \AgdaBound{U}, identifies with \AgdaBound{g} is \AgdaBound{G} \AgdaBound{U} \AgdaBound{g}, with \AgdaFunction{0ℚ} representing a complete lack of identification with a given gender and \AgdaFunction{1ℚ} representing total identification with a given gender.
@@ -419,7 +419,7 @@ Much like whoever thought that \AgdaFunction{Attempt5.AbstractGender} is a good 
 
 \begin{code}
   AbstractGender : {u : Level} → Set u → Set u
-  AbstractGender {u} UC = UC → Attempt1.Gender → I
+  AbstractGender UC = UC → Attempt1.Gender → I
 \end{code}
 
 Once again, the Agda version is essentially just a universe-polymorphic equivalent of the non-Agda function.  More formally, one, e.g., the author, who is sick of writing this boilerplate-like stuff, can say that for all \glspl{gEntity} \(x\), levels \AgdaBound{u}, \AgdaBound{u}-universe-context types \AgdaBound{UC}, and \AgdaFunction{AbstractGender} \AgdaBound{UC} terms \AgdaBound{G}, \AgdaBound{G} is the gender identity of \(x\) if and only if for all appropriate \AgdaBound{U} and \AgdaBound{g}, the extent to which \(x\) identifies with \AgdaBound{g} in \AgdaBound{U} is \AgdaBound{G} \AgdaBound{U} \AgdaBound{g}, where \AgdaFunction{i0} and \AgdaFunction{Agdai1} indicate complete non-identification and total identification with \AgdaBound{g}, respectively, and other \AgdaDatatype{I} values are assigned linearly.
@@ -455,7 +455,7 @@ Pretty much exactly like in \fref{sec:gender6definition} --- actually, the defin
 
 \begin{code}
   AbstractGender : {u : Level} → Set u → Set (u ⊔ lsuc lzero)
-  AbstractGender {u} UC = UC → Gender → I
+  AbstractGender UC = UC → Gender → I
 \end{code}
 
 \subsection{Advantages}\label{sec:gender7advantages}
@@ -560,7 +560,7 @@ Again, pretty much exactly like in \fref{sec:gender6definition} --- actually, th
 
 \begin{code}
   AbstractGender : {u : Level} → Set u → Set u
-  AbstractGender {u} UC = UC → Gender → I
+  AbstractGender UC = UC → Gender → I
 \end{code}
 
 \subsection{Some Examples}
