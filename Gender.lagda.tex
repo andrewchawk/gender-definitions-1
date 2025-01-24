@@ -90,6 +90,22 @@ In this paper, the author tries to use Agda to define a gender identity type \(G
   \item For all gender identities \(g_1\) and \(g_2\), if \(g_1\) meaningfully differs from \(g_2\), then \(G\)'s representation of \(g_1\) is meaningfully different from \(G\)'s representation of \(g_2\).  A bit more tersely, one can say that the morphism from the gender identities to \(G\) is injective.\label{enum:specRuleRepresentationDifference}
 \end{enumerate}
 
+\section{Non-Goals}
+In this paper, the author does \emph{not} try to formally define
+
+\begin{itemize}
+  \item \summaryLink{sec:nonGoalTransgender}{``transgender''}.
+\end{itemize}
+
+\subsection{On Not Defining ``Transgender''}\label{sec:nonGoalTransgender}
+
+\begin{theorem}
+  This paper does not formally define ``transgender''.
+\end{theorem}
+\begin{proof}
+  This paper formally defines ``transgender'' only if this paper also defines a correspondence relation on the gender identities and the biological sexes; perhaps a touch informally, one can say that for all \glspl{gEntity} \(x\), \(x\) is transgender if and only if \(x\) has a body which has a gender which does \emph{not} correspond to the gender identity of \(x\).  Similarly, this paper defines such a correspondence only if this paper defines ``biological sex''.  However, biological sex is species-specific,\cite{citationNeeded}, so this paper defines ``biological sex'' only if this paper defines ``species''.  Also, the author thinks that the correspondences between many intersex genophenotypes and gender identities are arbitrary, so this paper does not define said correspondence at all.  Therefore, this paper does not formally define ``transgender''.
+\end{proof}
+
 \section{Miscellaneous Stuff}
 
 \subsection{Stuff for Agda}
