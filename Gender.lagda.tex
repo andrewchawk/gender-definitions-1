@@ -613,8 +613,7 @@ Formally, one can say that the male gender-identity, i.e., ``abstract gender'', 
 
       Correct : Set u
       Correct = ((uc : UC) → maleIdentity uc male ≡ i1)
-              × ((g : Gender) → g ≢ male → (uc : UC) →
-                 maleIdentity uc g ≡ i0)
+              × (∀ g uc → g ≢ male → maleIdentity uc g ≡ i0)
 \end{code}
 
 \paragraph{The Female Identity}\label{sec:gender8exampleIdentityFemale}
@@ -629,8 +628,7 @@ Formally, one can say that the male gender-identity, i.e., ``abstract gender'', 
 
       Correct : Set u
       Correct = ((uc : UC) → femaleIdentity uc female ≡ i1)
-              × ((g : Gender) → g ≢ female → (uc : UC) →
-                 femaleIdentity uc g ≡ i0)
+              × (∀ g uc → g ≢ female → femaleIdentity uc g ≡ i0)
 \end{code}
 
 \paragraph{The Generic One-Gender Identity}
@@ -675,7 +673,7 @@ One can do a bit of abstraction on the previous try, yielding the following resu
 
         Correct : AbstractGender UC → Set (u ⊔ v)
         Correct G = All (λ (c , g) → i1 ≡ G c g) l
-                  × ((c : UC) → C c → (g : Gender) → i0 ≡ G c g)
+                  × (∀ g c → C c → i0 ≡ G c g)
 \end{code}
 
 \paragraph{A More Generic Pangender Type}
