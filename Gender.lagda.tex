@@ -549,7 +549,7 @@ module Attempt8 where
 \end{code}
 
 \subsection{Summary, Spoilers, and Such}
-This \AgdaFunction{AbstractGender} is \emph{very} similar to \hyperref[sec:gender7]{\AgdaFunction{Attempt7.AbstractGender}}, but \AgdaRecord{Gender.selfDescription} is a function from the gender self-descriptions to the unit interval, with the output indicating the extent of identification with the input gender self-description.  This approach \summaryLink{enum:gender8advantageExtent}{solves the extent problem}.
+This \AgdaFunction{AbstractGender} is \emph{very} similar to \hyperref[sec:gender7]{\AgdaFunction{Attempt7.AbstractGender}}, but \AgdaRecord{Gender.selfDescription} is a function from the gender self-descriptions to the unit interval, with the output indicating the extent of identification with the input gender self-description.  This approach \summaryLink{enum:gender8advantageExtent}{solves the extent problem} but \summaryLink{enum:gender8flawDysphoria}{fails to distinguish between dysphoria-inducing non-identification and non-dysphoria-inducing non-identification}.
 
 \subsection{Definitions}
 
@@ -705,7 +705,7 @@ Some advantages of this approach are as follows:
 Some flaws of this approach are as follows:
 
 \begin{itemize}
-  \item This approach does not explicitly distinguish between complete non-identification and dysphoria-inducing non-identification.
+  \item This approach does not explicitly distinguish between complete non-identification and dysphoria-inducing non-identification.\label{enum:gender8flawDysphoria}
 \end{itemize}
 
 \printbibliography{}
