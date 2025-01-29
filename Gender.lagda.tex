@@ -608,12 +608,11 @@ Formally, one can say that the male gender-identity, i.e., ``abstract gender'', 
     module MaleIdentity
            {u : Level}
            (UC : Set u)
-           (male : Gender)
-           (maleIdentity : AbstractGender UC) where
+           (male : Gender) where
 
-      Correct : Set u
-      Correct = ((uc : UC) → maleIdentity uc male ≡ i1)
-              × (∀ g uc → g ≢ male → maleIdentity uc g ≡ i0)
+      Correct : AbstractGender UC → Set u
+      Correct maleIdentity = ((uc : UC) → maleIdentity uc male ≡ i1)
+                           × (∀ g uc → g ≢ male → maleIdentity uc g ≡ i0)
 \end{code}
 
 \paragraph{The Female Identity}\label{sec:gender8exampleIdentityFemale}
@@ -623,12 +622,11 @@ Formally, one can say that the male gender-identity, i.e., ``abstract gender'', 
     module FemaleIdentity
            {u : Level}
            (UC : Set u)
-           (female : Gender)
-           (femaleIdentity : AbstractGender UC) where
+           (female : Gender) where
 
-      Correct : Set u
-      Correct = ((uc : UC) → femaleIdentity uc female ≡ i1)
-              × (∀ g uc → g ≢ female → femaleIdentity uc g ≡ i0)
+      Correct : AbstractGender UC → Set u
+      Correct femaleIdentity = ((uc : UC) → femaleIdentity uc female ≡ i1)
+                             × (∀ g uc → g ≢ female → femaleIdentity uc g ≡ i0)
 \end{code}
 
 \paragraph{The Generic One-Gender Identity}
