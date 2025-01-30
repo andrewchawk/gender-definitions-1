@@ -146,6 +146,7 @@ open import Data.List.Membership.Propositional using (_∈_)
 open import Data.List.Relation.Unary.All using (All)
 open import Data.Product using (Σ ; _,_ ; _×_)
 open import Relation.Nullary.Decidable using (from-yes)
+open import Relation.Nullary using (¬_)
 import Data.Rational.Properties as RatProp
 \end{code}
 
@@ -175,6 +176,18 @@ i1 : I
 i1 = from-rational 1ℚ
                    (RatProp.≤-reflexive _≡_.refl)
                    (from-yes (0ℚ Data.Rational.≤? 1ℚ))
+\end{code}
+
+\paragraph{The Equality Relation}
+Basically, \AgdaFunction{IEq} \AgdaBound{x} \AgdaBound{y} is populated if and only if \AgdaBound{x} is numerically equal to \AgdaBound{y}.  \AgdaFunction{IEq} is defined as follows:
+
+\begin{code}
+module IEq where
+  data IEq : I → I → Set where
+    Structural : {x y : I} → x ≡ y → IEq x y
+
+IEq : I → I → Set
+IEq = IEq.IEq
 \end{code}
 
 \section{A Particularly Simple Definition}
@@ -611,8 +624,8 @@ Formally, one can say that the male gender-identity, i.e., ``abstract gender'', 
            (male : Gender) where
 
       Correct : AbstractGender UC → Set u
-      Correct maleIdentity = ((uc : UC) → maleIdentity uc male ≡ i1)
-                           × (∀ g uc → g ≢ male → maleIdentity uc g ≡ i0)
+      Correct maleIdentity = ((uc : UC) → IEq i1 (maleIdentity uc male))
+                           × (∀ g uc → g ≢ male → IEq i0 (maleIdentity uc g))
 \end{code}
 
 \paragraph{The Female Identity}\label{sec:gender8exampleIdentityFemale}
@@ -625,8 +638,8 @@ Formally, one can say that the male gender-identity, i.e., ``abstract gender'', 
            (female : Gender) where
 
       Correct : AbstractGender UC → Set u
-      Correct femaleIdentity = ((uc : UC) → femaleIdentity uc female ≡ i1)
-                             × (∀ g uc → g ≢ female → femaleIdentity uc g ≡ i0)
+      Correct femaleIdentity = ((uc : UC) → IEq i1 (femaleIdentity uc female))
+                             × (∀ g uc → g ≢ female → IEq i0 (femaleIdentity uc g))
 \end{code}
 
 \paragraph{The Generic One-Gender Identity}
@@ -636,7 +649,7 @@ As indicated by the sarcastic not-a-sematic-definition in \fref{sec:gender8examp
     module _ {u : Level} {UC : Set u} where
       OneGenderIdentity : Gender → AbstractGender UC → Set u
       OneGenderIdentity g G =
-        ∀ uc → (G uc g ≡ i1) × (∀ h → h ≢ g → G uc h ≡ i0)
+        ∀ uc → (IEq i1 (G uc g)) × (∀ h → h ≢ g → IEq i0 (G uc h))
 \end{code}
 
 \paragraph{Genderfluid Verification}
@@ -652,10 +665,10 @@ If\footnote{This ``if'' structuring replaced an ``assuming that'' structuring be
              (C : UC → Set v) where
 
         Correct : AbstractGender UC → Set (u ⊔ v)
-        Correct G = i1 ≡ G c1 g1
-                  × i1 ≡ G c2 g2
-                  × i1 ≡ G c3 g3
-                  × ((c : UC) → C c → (g : Gender) → i0 ≡ G c g)
+        Correct G = IEq i1 (G c1 g1)
+                  × IEq i1 (G c2 g2)
+                  × IEq i1 (G c3 g3)
+                  × ((c : UC) → C c → (g : Gender) → IEq i0 (G c g))
 \end{code}
 
 \paragraph{Genderfluid Verification 2}
@@ -670,8 +683,8 @@ One can do a bit of abstraction on the previous try, yielding the following resu
              (C : UC → Set v) where
 
         Correct : AbstractGender UC → Set (u ⊔ v)
-        Correct G = All (λ (c , g) → i1 ≡ G c g) l
-                  × (∀ g c → C c → i0 ≡ G c g)
+        Correct G = All (λ (c , g) → IEq i1 (G c g)) l
+                  × (∀ g c → C c → IEq i0 (G c g))
 \end{code}
 
 \paragraph{A More Generic Pangender Type}
@@ -679,7 +692,7 @@ In contrast with the pangender term of \fref{sec:gender8exampleIdentityPangender
 
 \begin{code}
     Pangender : {u : Level} → {UC : Set u} → AbstractGender UC → Set u
-    Pangender G = ∀ g c → i0 ≢ G g c
+    Pangender G = ∀ g c → ¬ IEq i0 (G g c)
 \end{code}
 
 \subparagraph{Proof of \AgdaFunction{basicPangender}'s Pangender Nature}
@@ -688,7 +701,7 @@ Also, using \AgdaFunction{Pangender}, one can prove that \AgdaFunction{basicPang
 \begin{code}
     basicPangender-is-pangender-identity :
       {u : Level} → {UC : Set u} → Pangender (basicPangender UC)
-    basicPangender-is-pangender-identity g c ()
+    basicPangender-is-pangender-identity g c (IEq.Structural ())
 \end{code}
 
 \subsection{Advantages}
