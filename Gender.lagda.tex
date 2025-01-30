@@ -678,9 +678,8 @@ One can do a bit of abstraction on the previous try, yielding the following resu
 In contrast with the pangender term of \fref{sec:gender8exampleIdentityPangenderBasic}, one can say that for any given \glspl{gEntity} \(x\), the gender identity of \(x\) is a pangender identity if and only if for any universe context \(u\) and gender \(g\), in \(u\), the extent to which \(x\) identifies with \(g\) is nonzero.  Using Agda, one can write a more succinct definition like so:
 
 \begin{code}
-    module _ {u : Level} {UC : Set u} where
-      Pangender : AbstractGender UC → Set u
-      Pangender G = ∀ g c → i0 ≢ G g c
+    Pangender : {u : Level} → {UC : Set u} → AbstractGender UC → Set u
+    Pangender G = ∀ g c → i0 ≢ G g c
 \end{code}
 
 \subparagraph{Proof of \AgdaFunction{basicPangender}'s Pangender Nature}
