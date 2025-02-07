@@ -28,6 +28,42 @@
 
 \addbibresource{citationNeeded.bib}
 
+
+\newcounter{Sectionlevel}
+\setcounter{Sectionlevel}{2}
+\newcounter{skipsubsubsection}
+\setcounter{skipsubsubsection}{1}
+
+\newenvironment{Section}[1]{
+  \addtocounter{Sectionlevel}{1}
+  \ifnum\value{Sectionlevel}=1
+  \part{#1}
+  \fi
+  \ifnum\value{Sectionlevel}=2
+  \chapter{#1}
+  \fi
+  \ifnum\value{Sectionlevel}=3
+  \section{#1}
+  \fi
+  \ifnum\value{Sectionlevel}=4
+  \subsection{#1}
+  \fi
+  %\ifnum\value{skipsubsubsection}=\value{1
+  %\stepcounter{Sectionlevel}
+  %\fi
+  \ifnum\value{Sectionlevel}=5
+  \subsubsection{#1}
+  \fi
+  \ifnum\value{Sectionlevel}=6
+  \paragraph{#1}
+  \fi
+  \ifnum\value{Sectionlevel}=7
+  \subparagraph{#1}
+  \fi
+}{
+  \addtocounter{Sectionlevel}{-1}
+}
+
 % What is a good place for this crap?
 \newunicodechar{⊤}{\ensuremath{\mathnormal{\top}}}
 \newunicodechar{⊥}{\ensuremath{\mathnormal{\bot}}}
@@ -90,14 +126,14 @@ In this paper, the author tries to use Agda to define a gender identity type \(G
   \item For all gender identities \(g_1\) and \(g_2\), if \(g_1\) meaningfully differs from \(g_2\), then \(G\)'s representation of \(g_1\) is meaningfully different from \(G\)'s representation of \(g_2\).  A bit more tersely, one can say that the morphism from the gender identities to \(G\) is injective.\label{enum:specRuleRepresentationDifference}
 \end{enumerate}
 
-\section{Non-Goals}
+\begin{Section}{Non-Goals}
 In this paper, the author does \emph{not} try to formally define
 
 \begin{itemize}
   \item \summaryLink{sec:nonGoalTransgender}{``transgender''}.
 \end{itemize}
 
-\subsection{On Not Defining ``Transgender''}\label{sec:nonGoalTransgender}
+\begin{Section}{On Not Defining ``Transgender''}\label{sec:nonGoalTransgender}
 
 \begin{theorem}
   This paper does not formally define ``transgender''.
@@ -105,35 +141,40 @@ In this paper, the author does \emph{not} try to formally define
 \begin{proof}
   This paper formally defines ``transgender'' only if this paper also defines a correspondence relation on the gender identities and the biological sexes; perhaps a touch informally, one can say that for all \glspl{gEntity} \(x\), \(x\) is transgender if and only if \(x\) has a body which has a biological sex which does \emph{not} correspond to the gender identity of \(x\).  Similarly, this paper defines such a correspondence relation only if this paper defines ``biological sex''.  However, biological sex is species-specific,\cite{mooreWhiteThroatedSparrow} so this paper defines ``biological sex'' only if this paper defines ``species''.  Also, the author thinks that many mainstream correspondences\footnote{Examples include XY complete gonadal dysgenesis, which is described in \textcite{wikipediaXyDysgenesis}.} between intersex genophenotypes and gender identities are arbitrary, so this paper does not define said correspondence at all.  Therefore, this paper does not formally define ``transgender''.
 \end{proof}
+\end{Section}
+\end{Section}
 
-\section{Miscellaneous Stuff}
+\begin{Section}{Miscellaneous Stuff}
 
-\subsection{Stuff for Agda}
+\begin{Section}{Stuff for Agda}
 
-\paragraph{Options}
+\begin{Section}{Options}
 The following Agda blip indicates that this whole document is safe, i.e., does not use \AgdaKeyword{postulate}s or anything of the sort.
 
 \begin{code}
 {-# OPTIONS --safe #-}
 \end{code}
+\end{Section}
 
-\paragraph{The Module Header}
+\begin{Section}{The Module Header}
 This whole document constitutes an Agda module.  Specifically, the module is \AgdaModule{Gender}, per the following declaration:
 
 \begin{code}
 module Gender where
 \end{code}
+\end{Section}
 
-\paragraph{Recommended Reading}
+\begin{Section}{Recommended Reading}
 
-\subparagraph{Agda Primitives}
+\begin{Section}{Agda Primitives}
 As one may have expected, this document uses some Agda primitives.  Although using such primitives without explicit ``\AgdaKeyword{import}'' statements is possible, such usage demands the use of fully-qualified identifiers, and the resulting verbosity irritates the author, who, accordingly, has decided to use some ``\AgdaKeyword{open} \AgdaKeyword{import}'' statements to decrease such verbosity.  Anyway, a brief listing or such of the primitives which are used is as follows:
 
 \begin{code}
 open import Agda.Primitive using (Level ; lsuc ; _⊔_ ; lzero)
 \end{code}
+\end{Section}
 
-\subparagraph{The Agda Standard Library}
+\begin{Section}{The Agda Standard Library}
 This document also makes use of some Agda modules which are defined in \textcite{agdaStdlib}.  A brief overview of the parts which are used is as follows:
 
 \begin{code}
@@ -149,10 +190,13 @@ open import Relation.Nullary.Decidable using (from-yes)
 open import Relation.Nullary using (¬_)
 import Data.Rational.Properties as RatProp
 \end{code}
+\end{Section}
+\end{Section}
+\end{Section}
 
-\section{Supporting Types}
+\begin{Section}{Supporting Types}
 
-\subsection{The Unit Interval Type}
+\begin{Section}{The Unit Interval Type}
 Basically, \AgdaDatatype{I} is the real-valued unit interval type.  More formally, one can say that for all values \AgdaBound{x} of type \AgdaDatatype{I}, \AgdaBound{x} is --- or represents, according to \emph{some people} --- some real number which is less than or equal to one and is greater than or equal to zero.
 
 \AgdaInductiveConstructor{from-rational} is good for constructing simple \AgdaDatatype{I} terms; \AgdaInductiveConstructor{from-rational} \AgdaBound{q} \AgdaBound{lt1} \AgdaBound{lt2} is numerically equal to \AgdaBound{q}.
@@ -163,7 +207,7 @@ data I : Set where
     (q : ℚ) → q Data.Rational.≤ 1ℚ → 0ℚ Data.Rational.≤ q → I
 \end{code}
 
-\paragraph{Extremes}
+\begin{Section}{Extremes}
 \AgdaFunction{i0} and \AgdaFunction{i1}, which are numerically equal to zero and one, respectively, are defined as follows:
 
 \begin{code}
@@ -177,8 +221,9 @@ i1 = from-rational 1ℚ
                    (RatProp.≤-reflexive _≡_.refl)
                    (from-yes (0ℚ Data.Rational.≤? 1ℚ))
 \end{code}
+\end{Section}
 
-\paragraph{The Equality Relation}
+\begin{Section}{The Equality Relation}
 Basically, \AgdaFunction{IEq} is the \AgdaDatatype{I}-specific equality-type, i.e., \AgdaBound{x} \AgdaBound{y} is populated if and only if \AgdaBound{x} is numerically equal to \AgdaBound{y}.  \AgdaFunction{IEq} is defined as follows:
 
 \begin{code}
@@ -189,17 +234,22 @@ module IEq where
 IEq : I → I → Set
 IEq = IEq.IEq
 \end{code}
+\end{Section}
+\end{Section}
+\end{Section}
+\end{Section}
 
-\section{A Particularly Simple Definition}
+\begin{Section}{A Particularly Simple Definition}
 
 \begin{code}
 module Attempt1 where
 \end{code}
 
-\subsection{Summary, what with the Spoilers and Such}
+\begin{Section}{Summary, what with the Spoilers and Such}
 \summaryLink{sec:gender1definition}{A gender type \(G\) can be defined such that for all genders \(x\), the \(G\) term which corresponds to \(x\) is\footnote{The word ``is'' is a bit of an oversimplification.} a description of \(x\), per a \gls{gEntity} whose gender is the \(G\) gender.}  However, \summaryLink{sec:gender1flaws}{this approach is flawed} in \summaryLink{sec:gender1non1gender}{being all but incompatible with \glspl{gEntity} whose gender count is not one}, not facilitating equality checking, and \summaryLink{sec:gender1vagueness}{possibly just being too vague}.
+\end{Section}
 
-\subsection{Definition}\label{sec:gender1definition}
+\begin{Section}{Definition}\label{sec:gender1definition}
 Simply, one can define a gender type \AgdaRecord{Gender} as follows:
 
 \begin{code}
@@ -209,8 +259,9 @@ Simply, one can define a gender type \AgdaRecord{Gender} as follows:
 \end{code}
 
 At the risk of sounding a bit formal, one can say that \AgdaRecord{Gender} is such that for all \glspl{gEntity} \(x\) and terms \AgdaBound{g} of type \AgdaRecord{Gender}, \AgdaBound{g} is the gender of \(x\) if and only if \(x\)'s description of \(x\)'s gender is \AgdaRecord{Gender.selfDescription} \AgdaBound{g}.  However, as indicated by the mere \emph{existence} of \fref{sec:gender1flaws}, \AgdaRecord{Gender} is flawed.
+\end{Section}
 
-\subsection{Examples}
+\begin{Section}{Examples}
 
 \begin{code}
   module Example where
@@ -259,8 +310,9 @@ Once again, that one \AgdaPostulate{String} complaint also applies here.
 
   However, as indicated by ``allegedly'' and the overall janky phrasing, per \fref{enum:gender1agender}, \AgdaFunction{agender} is bogus.
 \end{example}
+\end{Section}
 
-\subsection{Flaws}\label{sec:gender1flaws}
+\begin{Section}{Flaws}\label{sec:gender1flaws}
 Essentially, the flaws of \AgdaRecord{Gender} are as follows:
 
 \begin{enumerate}
@@ -272,26 +324,33 @@ Essentially, the flaws of \AgdaRecord{Gender} are as follows:
   \item \AgdaPostulate{String} does not facilitate the equality comparison of genders.\label{enum:gender1stringComparison}
 \end{enumerate}
 
-\paragraph{\ecapitalisewords{\glspl{gEntity}} whose Gender Count Is Not One}\label{sec:gender1non1gender}
+\begin{Section}{\ecapitalisewords{\glspl{gEntity}} whose Gender Count Is Not One}\label{sec:gender1non1gender}
 Basically, \AgdaRecord{Gender} is unsuitable for \glspl{gEntity} who are agender, bigender, trigender, or such; using \AgdaRecord{Gender} to represent gender identities only directly accommodates \glspl{gEntity} who have exactly \emph{one} gender.
-\subparagraph{Agender Support}
+\begin{Section}{Agender Support}
 As stated in \fref{enum:gender1agender}, \AgdaRecord{Gender} does not accommodate agender \glspl{gEntity}; such \glspl{gEntity} are likely to say that,\cite{healthline-agender}\cite{lgbtqia-wiki-agender} per the name, which essentially means ``without gender'',\cite{lgbtqia-wiki-agender} agender \glspl{gEntity} lack genders and, therefore, descriptions of such genders; accordingly, one can conclude that \AgdaRecord{Gender}, which depends upon gender self-descriptions, is unsuitable for use with agender \glspl{gEntity}.
-\subparagraph{\(n\)-Gender Support}
+\end{Section}
+\begin{Section}{\(n\)-Gender Support}
 For similar reasons, \AgdaRecord{Gender} is all but incompatible with bigender \glspl{gEntity} and such; although \AgdaRecord{Gender} \emph{does} \emph{technically} support the selection of multiple genders through comma-separated lists and such, the author finds that such second-class support is unfair and, therefore, unsuitable.  Also, like agender \glspl{gEntity}, an \(n\)-gender \gls{gEntity} \(e\), where \(n > 1\), may say that the gender identity of \(e\) is a combination of genders but \emph{is not actually a gender}, as bigender \glspl{gEntity} and such have multiple genders, not just a single gender;\cite{nonbinaryWikiBigender} in this case, the simple \AgdaRecord{Gender} approach is outright unsuitable.
+\end{Section}
+\end{Section}
 
-\paragraph{Vagueness}\label{sec:gender1vagueness}
+\begin{Section}{Vagueness}\label{sec:gender1vagueness}
 The author thinks that \AgdaRecord{Gender}'s \AgdaPostulate{String} approach \emph{may} be excessively vague, as this \AgdaPostulate{String} approach permits saying that the truncated output of \texttt{/dev/urandom} is a gender self-description.  However, the author acknowledges that gender self-descriptions can vary wildly and that specifically enumerating every gender is infeasible; similarly, the author is unaware of a good function \AgdaFunction{IsValidGenderSelfDescription} \AgdaSymbol{:} \AgdaPostulate{String} \AgdaSymbol{→} \AgdaPostulate{Set}.
+\end{Section}
+\end{Section}
+\end{Section}
 
-\section{A More Agender-Friendly Type}
+\begin{Section}{A More Agender-Friendly Type}
 
 \begin{code}
 module Attempt2 where
 \end{code}
 
-\subsection{Summary, what with the Spoilers and All}
+\begin{Section}{Summary, what with the Spoilers and All}
 Instead of the using the previous type, \summaryLink{sec:gender2definition}{one can say that \AgdaFunction{Maybe} \AgdaRecord{Attempt1.Gender} is the type of gender identities, with \AgdaInductiveConstructor{nothing} representing agender identities, and \AgdaInductiveConstructor{just} \AgdaBound{b} representing the gender identity which is characterized by the \AgdaBound{b} gender}.  \summaryLink{sec:gender2flaws}{But this idea is flawed, too}; this approach \summaryLink{enum:gender2nGender}{lacks support for multi-gender identities} \emph{and} \summaryLink{enum:gender2problemInheritance}{inherits all non-agender-identity-related flaws of the na\"ive use of \AgdaRecord{Attempt1.Gender}}.
+\end{Section}
 
-\subsection{Definition}\label{sec:gender2definition}
+\begin{Section}{Definition}\label{sec:gender2definition}
 In addition to a gender type, one can provide an ``abstract gender'' type, i.e., a type for gender identities, as opposed to a strict gender type; some \glspl{gEntity} lack genders, but the author assumes that all such \glspl{gEntity} \emph{do} have gender identities, i.e., identities which pertain to the concept of gender, although being unaware of such identity is possible.  Anyway, the structural definition of \AgdaFunction{AbstractGender}, which is the type for gender identities, is as follows:
 
 \begin{code}
@@ -309,25 +368,29 @@ Again, at the risk of sounding a bit formal, one can say that for all \AgdaRecor
   \end{itemize}
   \item \AgdaInductiveConstructor{nothing} is the \AgdaRecord{AbstractGender} for \(x\) if and only if \(x\) is agender.
 \end{itemize}
+\end{Section}
 
-\subsection{Flaws}\label{sec:gender2flaws}
+\begin{Section}{Flaws}\label{sec:gender2flaws}
 Some flaws of this approach are as follows:
 
 \begin{enumerate}
   \item This approach inherits the \(n\)-gender \gls{gEntity} flaws of \AgdaRecord{Attempt1.Gender}, where \(n > 1\).\label{enum:gender2nGender}
   \item Also, this approach inherits all of the issues which are inherent in the use of \AgdaPostulate{String}; ultimately, \AgdaFunction{AbstractGender} uses \AgdaPostulate{String} for gender representation.\label{enum:gender2problemInheritance}
 \end{enumerate}
+\end{Section}
+\end{Section}
 
-\section{A More \(n\)-Gender-Friendly Approach}
+\begin{Section}{A More \(n\)-Gender-Friendly Approach}
 
 \begin{code}
 module Attempt3 where
 \end{code}
 
-\subsection{Summary, what with the Spoilers and All}
+\begin{Section}{Summary, what with the Spoilers and All}
 Alternatively \emph{still}, \summaryLink{sec:gender3definition}{one can say that for all \glspl{gEntity} \(x\), the gender identity of \(x\) is a list of all genders with which \(x\) identifies}.  This approach is suitable for agender, monogender, and polygender \glspl{gEntity}.  But \summaryLink{sec:gender2flaws}{even \emph{this} approach is flawed}; this approach \summaryLink{enum:gender2genderfluidOrPolygender}{fails to distinguish between polygender and genderfluid \glspl{gEntity}}.
+\end{Section}
 
-\subsection{Definition}\label{sec:gender3definition}
+\begin{Section}{Definition}\label{sec:gender3definition}
 As indicated in \fref{enum:gender2nGender}, \AgdaRecord{Attempt2.AbstractGender}, despite accommodating agender \glspl{gEntity}, fails to properly accommodate \(n\)-gender \glspl{gEntity}.  Accordingly, in the hope of better accommodating such \glspl{gEntity}, the author has structurally defined a gender identity type \AgdaFunction{AbstractGender} as follows:
 
 \begin{code}
@@ -342,15 +405,16 @@ Semantically, one can say that the \AgdaFunction{AbstractGender} of a given \gls
   \item A given \gls{gEntity} \(x\) has exactly one gender \AgdaBound{g} if and only if the \AgdaFunction{AbstractGender} for \(x\) is \AgdaOperator{\AgdaFunction{[}} \AgdaBound{g} \AgdaOperator{\AgdaFunction{]}}, i.e., the singleton list which contains \AgdaBound{g}.
   \item A given \gls{gEntity} \(x\) has \(n\) genders, where \(n > 1\), if and only if the \AgdaFunction{AbstractGender} for \(x\) is a list of all genders of \(x\).\footnote{All right, this one is damn near just a repeat of the beginning of this paragraph.  Twenty lashes for the author!}
 \end{enumerate}
+\end{Section}
 
-\subsection{Flaws}\label{sec:gender3flaws}
+\begin{Section}{Flaws}\label{sec:gender3flaws}
 Some flaws of this new approach are as follows:
 
 \begin{enumerate}
   \item \hyperref[sec:gender3DistinctionFailure]{\AgdaFunction{AbstractGender} fails to explicitly distinguish between genderfluid identities and polygender identities.}\label{enum:gender2genderfluidOrPolygender}
 \end{enumerate}
 
-\paragraph{Genderfluid-Polygender Distinction Failure}\label{sec:gender3DistinctionFailure}
+\begin{Section}{Genderfluid-Polygender Distinction Failure}\label{sec:gender3DistinctionFailure}
 \AgdaFunction{AbstractGender} does not particularly well facilitate distinguishing between genderfluid identities and polygender identities.  The naive approach for representing a polygender identity with \AgdaFunction{AbstractGender} is the listing of the appropriate genders; similarly, the naive approach for representing a genderfluid identity is the listing of the appropriate genders; but, per this approach, given a polygender identity \(p\) and a genderfluid identity \(g\), if the genders of \(p\) are the genders of \(g\), then the naive \AgdaFunction{AbstractGender} representation of \(p\) is equivalent to the naive \AgdaFunction{AbstractGender} representation of \(g\).  This situation is Bad News; there exist a polygender identity \(p\) and a genderfluid identity \(f\) such that the following conditions hold:
 
 \begin{enumerate}
@@ -359,17 +423,21 @@ Some flaws of this new approach are as follows:
 \end{enumerate}
 
 Accordingly, one can rightfully conclude that \AgdaFunction{AbstractGender} is in violation of \fref{enum:specRuleRepresentationDifference} and, therefore, is not a good solution.
+\end{Section}
+\end{Section}
+\end{Section}
 
-\section{A More Genderfluid-Friendly Definition}
+\begin{Section}{A More Genderfluid-Friendly Definition}
 
 \begin{code}
 module Attempt4 where
 \end{code}
 
-\subsection{Summary, what with the Spoilers and All}
+\begin{Section}{Summary, what with the Spoilers and All}
 Another idea is that \summaryLink{sec:gender4definition}{gender identity is a relation on the universe contexts and the genders}.  Despite enabling representation --- and differentiation --- of agender identities, polygender identities, and genderfluid identities, \summaryLink{sec:gender4flaws}{this approach \emph{still} sucks}; \summaryLink{enum:gender4flawsClunky}{the universe context approach is clunky}, and \summaryLink{enum:gender4flawsExtent}{a simple relation does not indicate the extent of identification with a given gender}.
+\end{Section}
 
-\subsection{Definition}\label{sec:gender4definition}
+\begin{Section}{Definition}\label{sec:gender4definition}
 Alternatively, gender identity can be represented as a binary predicate \(P\) on the universe contexts and the genders such that for all such gender identities \(P\) and \glspl{gEntity} \(x\), \(P\) is the gender identity of \(x\) if and only if for all given universe contexts \(U\) and genders \(g\), \(P\ U\ g\) is inhabited if and only if \(g\) is a gender of \(x\) when \(x\)'s universe context is \(U\).  \AgdaFunction{AbstractGender}, which is a universe-level-polymorphic version of \(P\), is defined as follows:
 
 \begin{code}
@@ -378,8 +446,9 @@ Alternatively, gender identity can be represented as a binary predicate \(P\) on
 \end{code}
 
 Much like the simpler \(P\), \AgdaFunction{AbstractGender} can be semantically defined as follows: For all universe levels \AgdaBound{u}, \AgdaBound{u}-universe-context types \AgdaBound{UC}, \AgdaFunction{AbstractGender} \AgdaBound{UC} terms \AgdaBound{G}, and \glspl{gEntity} \(x\), \AgdaBound{G} is the gender identity of \(x\) if and only if for all universe contexts \AgdaBound{U} and genders \AgdaBound{g}, ``\AgdaBound{g} is a gender of \(x\) in context \AgdaBound{U}'' holds if and only if \AgdaBound{G} \AgdaBound{U} \AgdaBound{g} is inhabited.
+\end{Section}
 
-\subsection{Flaws}\label{sec:gender4flaws}
+\begin{Section}{Flaws}\label{sec:gender4flaws}
 A subset of the flaws of this approach is as follows:
 
 \begin{enumerate}
@@ -387,7 +456,7 @@ A subset of the flaws of this approach is as follows:
   \item \hyperref[sec:gender4Extent]{Describing the extent of gender is unsupported.}\label{enum:gender4flawsExtent}
 \end{enumerate}
 
-\paragraph{Extent}\label{sec:gender4Extent}
+\begin{Section}{Extent}\label{sec:gender4Extent}
 Genderfluidity is such that in a given context, a genderfluid \gls{gEntity} \(x\) can identify with multiple genders at once such that the strength of \(x\)'s identification is not consistent among the genders.  Equivalently but more formally, one can say that a \gls{gEntity} \(x\), a level \AgdaBound{u}, an \AgdaFunction{AbstractGender} \AgdaBound{u} term \AgdaBound{G}, a universe context \AgdaBound{U}, and genders \AgdaBound{g1} and \AgdaBound{g2} exist such that the following conditions hold:
 
 \begin{enumerate}
@@ -395,20 +464,25 @@ Genderfluidity is such that in a given context, a genderfluid \gls{gEntity} \(x\
   \item \AgdaBound{G} \AgdaBound{U} \AgdaBound{g1} and \AgdaBound{G} \AgdaBound{U} \AgdaBound{g2} are populated.
   \item In context \AgdaBound{U}, \(x\)'s feeling of \AgdaBound{g1} is stronger than \(x\)'s feeling of \AgdaBound{g2}.
 \end{enumerate}
+\end{Section}
 
-\subparagraph{\st{Epic} Monic Fail}
+\begin{Section}{Monic Fail}
 Because \AgdaFunction{AbstractGender} uses proofs, not measures of extent, \AgdaFunction{AbstractGender} cannot represent such intensity variation; accordingly, the morphism from the gender identity object to the \AgdaFunction{AbstractGender} object is \emph{not} monic and, therefore, is unacceptable for this paper.
+\end{Section}
+\end{Section}
+\end{Section}
 
-\section{A Similar --- but Interval-Based --- Approach}\label{sec:gender5}
+\begin{Section}{A Similar --- but Interval-Based --- Approach}\label{sec:gender5}
 
 \begin{code}
 module Attempt5 where
 \end{code}
 
-\subsection{A Crude --- and Spoiler-Inclusive --- Summary}
+\begin{Section}{A Crude --- and Spoiler-Inclusive --- Summary}
 Yet again alternatively, \summaryLink{sec:gender5definition}{gender identity can be represented as a rational-unit-interval-valued function on the universe contexts and the genders, with the rational indicating the degree of identification with the given gender in the given universe context}.  But, yet again, \summaryLink{sec:gender5flaws}{this new approach is flawed}; this approach \summaryLink{enum:gender5flawsIrrational}{does not account for irrational degrees of identification}.
+\end{Section}
 
-\subsection{Definition}\label{sec:gender5definition}
+\begin{Section}{Definition}\label{sec:gender5definition}
 Alternatively \emph{still} --- ooh-wee ---, one can say that gender identity is a function \(G\) from the universe contexts and the genders to the rationals which are inclusively bounded by \(1\) and \(0\) such that for all \glspl{gEntity} \(x\) and gender identities \(G\), \(G\) is the gender identity of \(x\) if and only if the extent to which \(x\) identifies with any given gender \(g\) in any given context \(U\) is \(G\ U\ g\).  Accordingly, the author has defined \AgdaFunction{AbstractGender}, which is a universe-level-abstract equivalent of this function, and a supporting interval type \AgdaRecord{Unitℚ}, as follows:
 
 \begin{code}
@@ -423,27 +497,32 @@ Alternatively \emph{still} --- ooh-wee ---, one can say that gender identity is 
 \end{code}
 
 For \AgdaFunction{AbstractGender}, one can \emph{so informally} say that for all levels \AgdaBound{u}, \glspl{gEntity} \(x\), \AgdaBound{u}-universe-context types \AgdaBound{UC}, and \AgdaFunction{AbstractGender} \AgdaBound{UC} terms \AgdaBound{G}, \AgdaBound{G} is the gender identity of \(x\) if and only if for all relevant universe-contexts \AgdaBound{U} and genders \AgdaBound{g}, the extent to which \(x\), in \AgdaBound{U}, identifies with \AgdaBound{g} is \AgdaBound{G} \AgdaBound{U} \AgdaBound{g}, with \AgdaFunction{0ℚ} representing a complete lack of identification with a given gender and \AgdaFunction{1ℚ} representing total identification with a given gender.
+\end{Section}
 
-\subsection{Flaws}\label{sec:gender5flaws}
+\begin{Section}{Flaws}\label{sec:gender5flaws}
 Even \emph{this} approach is flawed!  Accordingly, the author has elected to list some of the flaws, which are as follows:
 
 \begin{enumerate}
   \item \hyperref[sec:gender5irrational]{\AgdaFunction{AbstractGender} fails to accommodate irrational extents.}\label{enum:gender5flawsIrrational}
 \end{enumerate}
 
-\paragraph{Irrational Extents}\label{sec:gender5irrational}
+\begin{Section}{Irrational Extents}\label{sec:gender5irrational}
 \AgdaFunction{AbstractGender} fails to accommodate a gender identity \(P\) which is such that for all \glspl{gEntity} \(x\) of gender identity \(P\), a universe context \(U\) and a gender \(g\) exist such that the extent to which \(x\) identifies with \(g\) in \(U\) is not a rational number.  Accordingly, an approximation must be used, but such approximation would violate \fref{enum:specRuleRepresentationDifference}.  Accordingly, this approach is \emph{also} unsuitable.
+\end{Section}
+\end{Section}
+\end{Section}
 
-\section{The Continuous Interval Type}\label{sec:gender6}
+\begin{Section}{The Continuous Interval Type}\label{sec:gender6}
 
 \begin{code}
 module Attempt6 where
 \end{code}
 
-\subsection{Summary and Spoilers}
+\begin{Section}{Summary and Spoilers}
 \summaryLink{sec:gender6definition}{This \AgdaFunction{AbstractGender} is pretty much just a real-interval-valued version of the \AgdaFunction{AbstractGender} of \fref{sec:gender5}}.
+\end{Section}
 
-\subsection{Definition}\label{sec:gender6definition}
+\begin{Section}{Definition}\label{sec:gender6definition}
 Much like whoever thought that \AgdaFunction{Attempt5.AbstractGender} is a good idea, one can say that gender identity can be represented as a real-unit-interval-valued binary function \(G\) such that for all \glspl{gEntity} \(x\), \(G\) is the gender identity of \(x\) if and only if for all genders \(g\) and universe contexts \(U\), the extent of \(x\)'s identification with \(g\) in \(U\) is \(G\ U\ g\).  One can define a corresponding Agda function \AgdaFunction{AbstractGender} as follows:
 
 \begin{code}
@@ -452,25 +531,29 @@ Much like whoever thought that \AgdaFunction{Attempt5.AbstractGender} is a good 
 \end{code}
 
 Once again, the Agda version is essentially just a universe-polymorphic equivalent of the non-Agda function.  More formally, one, e.g., the author, who is sick of writing this boilerplate-like stuff, can say that for all \glspl{gEntity} \(x\), levels \AgdaBound{u}, \AgdaBound{u}-universe-context types \AgdaBound{UC}, and \AgdaFunction{AbstractGender} \AgdaBound{UC} terms \AgdaBound{G}, \AgdaBound{G} is the gender identity of \(x\) if and only if for all appropriate \AgdaBound{U} and \AgdaBound{g}, the extent to which \(x\) identifies with \AgdaBound{g} in \AgdaBound{U} is \AgdaBound{G} \AgdaBound{U} \AgdaBound{g}, where \AgdaFunction{i0} and \AgdaFunction{Agdai1} indicate complete non-identification and total identification with \AgdaBound{g}, respectively, and other \AgdaDatatype{I} values are assigned linearly.
+\end{Section}
 
-\subsection{Flaws}\label{sec:gender6flaws}
+\begin{Section}{Flaws}\label{sec:gender6flaws}
 Some flaws of this approach are as follows:
 
 \begin{enumerate}
   \item \AgdaRecord{Gender} only permits the use of \emph{one} gender self-description.\label{enum:gender6flawsMultiDesc}
 \end{enumerate}
+\end{Section}
+\end{Section}
 
-\section{An Alternative Type for Gender}\label{sec:gender7}
+\begin{Section}{An Alternative Type for Gender}\label{sec:gender7}
 
 \begin{code}
 module Attempt7 where
 \end{code}
 
-\subsection{Summary}
+\begin{Section}{Summary}
 This \AgdaFunction{AbstractGender} is quite similar to \hyperref[sec:gender6]{\AgdaFunction{Attempt6.AbstractGender}}, with the exception of the underlying type for gender; in this case, genders are essentially \AgdaFunction{Set}-level functions \(f\); this approach permits the use of multiple valid self-descriptions of a single gender.  But the identity type is still a binary function on the universe contexts and the genders.  This approach sucks in not indicating the extent of identification with a given gender self-description.
+\end{Section}
 
-\subsection{Definitions}
-\paragraph{A New Type for Gender}
+\begin{Section}{Definitions}
+\begin{Section}{A New Type for Gender}
 In contrast with \AgdaFunction{Attempt1.Gender}, one can say that gender can be represented as a unary relation \(f\) on \AgdaPostulate{String} such that for all \(s\), \(f\ s\) is populated if and only if the use of \(s\) as a gender self-description for \(f\) is valid.  \AgdaRecord{Gender}, where \AgdaField{Gender.selfDescriptions} is the equivalent of \(f\), is defined as follows:
 
 \begin{code}
@@ -478,34 +561,36 @@ In contrast with \AgdaFunction{Attempt1.Gender}, one can say that gender can be 
     field
       selfDescriptions : String → Set
 \end{code}
+\end{Section}
 
-\paragraph{The Gender Identity Type}
+\begin{Section}{The Gender Identity Type}
 Pretty much exactly like in \fref{sec:gender6definition} --- actually, the definition is so similar that the author will not even bother with writing another semantic definition ---, one can define a gender identity type \AgdaFunction{AbstractGender} as follows:
 
 \begin{code}
   AbstractGender : {u : Level} → Set u → Set (u ⊔ lsuc lzero)
   AbstractGender UC = UC → Gender → I
 \end{code}
+\end{Section}
+\end{Section}
 
-\subsection{Advantages}\label{sec:gender7advantages}
+\begin{Section}{Advantages}\label{sec:gender7advantages}
 Some advantages of this approach are as follows:
 
 \begin{enumerate}
   \item \summaryLink{sec:gender7solutionOneDescription}{This approach solves the ``one description'' problem of \fref{enum:gender6flawsMultiDesc}.}
 \end{enumerate}
 
-\paragraph{``One Description'' Solution}\label{sec:gender7solutionOneDescription}
-
-\subparagraph{Informal Proof}\label{sec:gender7solutionOneProofInformal}
-
+\begin{Section}{``One Description'' Solution}\label{sec:gender7solutionOneDescription}
+\begin{Section}{Informal Proof}\label{sec:gender7solutionOneProofInformal}
 \begin{theorem}
   This approach solves the ``one description'' problem of \fref{enum:gender6flawsMultiDesc}.
 \end{theorem}
 \begin{proof}
   This approach solves the ``one description'' problem of \fref{enum:gender6flawsMultiDesc} if for any given gender \(t\), there exists a term \AgdaBound{g} of type \AgdaRecord{Gender} such that for all \(s\) which are valid self-descriptions for \(t\), \AgdaBound{g} indicates that \(s\) is a valid self-description of \(t\).  For all \AgdaRecord{Gender} terms \AgdaBound{g} and gender self-descriptions \AgdaBound{s}, \AgdaField{gender.selfDescriptions} \AgdaBound{s} is populated only if \AgdaBound{s} is a valid gender-self-description for \AgdaBound{g}.  Similarly, where \(g_1\) denotes some arbitrary gender and \(S\ g_1\) is the list of all gender self-descriptions for \(g_1\), there exists a term \AgdaBound{g2} of type \AgdaRecord{Gender} such that for any given \AgdaBound{s}, \AgdaField{Gender.selfDescriptions} \AgdaBound{s} is populated if and only if \AgdaBound{s} is in \(S\ g_1\).  Therefore, this approach solves the ``one description'' problem of \fref{enum:gender6flawsMultiDesc}.
 \end{proof}
+\end{Section}
 
-\subparagraph{Formal Proof}\label{sec:gender7solutionOneProofFormal}
+\begin{Section}{Formal Proof}\label{sec:gender7solutionOneProofFormal}
 A more formal equivalent of the proof of \fref{sec:gender7solutionOneProofInformal} is as follows:
 
 \begin{code}
@@ -539,15 +624,18 @@ A more formal equivalent of the proof of \fref{sec:gender7solutionOneProofInform
         ; Y-to-X-to-Y = λ y → _≡_.refl
         }
 \end{code}
+\end{Section}
+\end{Section}
+\end{Section}
 
-\subsection{Flaws}\label{sec:gender7flaws}
+\begin{Section}{Flaws}\label{sec:gender7flaws}
 Some flaws of this approach are as follows:
 
 \begin{enumerate}
   \item \summaryLink{sec:gender7flawExtent}{\AgdaRecord{Gender} does not indicate the \emph{extent} of identification with a given gender description.}\label{enum:gender7flawExtent}
 \end{enumerate}
 
-\paragraph{Extent}\label{sec:gender7flawExtent}
+\begin{Section}{Extent}\label{sec:gender7flawExtent}
 \begin{theorem}
   This approach is bogus.
 \end{theorem}
@@ -555,18 +643,23 @@ Some flaws of this approach are as follows:
 \begin{proof}
   This approach is bogus if there exist two distinct genders \(g_1\) and \(g_2\) such that \AgdaRecord{Gender} cannot differentiate \(g_1\) and \(g_2\).  Such distinct genders exist if genders \(g_1\) and \(g_2\) and a gender self-description \(s\) exist such that the following statement holds: \(g_1\) \glspl{gEntity} and \(g_2\) \glspl{gEntity} \emph{both} identify with \(s\), but the \emph{extent} of \(g_1\)'s identification with \(s\) is greater than the extent of \(g_2\)'s identification with \(s\).  There \emph{do} exist such genders, and there \emph{does} exist such a gender self-description.  Therefore, this approach is bogus.
 \end{proof}
-\section{The Interval Type for Gender}
+\end{Section}
+\end{Section}
+\end{Section}
+
+\begin{Section}{The Interval Type for Gender}
 
 \begin{code}
 module Attempt8 where
 \end{code}
 
-\subsection{Summary, Spoilers, and Such}
+\begin{Section}{Summary, Spoilers, and Such}
 This \AgdaFunction{AbstractGender} is \emph{very} similar to \hyperref[sec:gender7]{\AgdaFunction{Attempt7.AbstractGender}}, but \AgdaRecord{Gender.selfDescription} is a function from the gender self-descriptions to the unit interval, with the output indicating the extent of identification with the input gender self-description.  This approach \summaryLink{enum:gender8advantageExtent}{solves the extent problem} but \summaryLink{enum:gender8flawDysphoria}{fails to distinguish between dysphoria-inducing non-identification and non-dysphoria-inducing non-identification}.
+\end{Section}
 
-\subsection{Definitions}
+\begin{Section}{Definitions}
 
-\paragraph{Yet Another Type for Gender}
+\begin{Section}{Yet Another Type for Gender}
 In contrast with \AgdaFunction{Attempt7.Gender}, which does not indicate the extent of identification with a given gender description, one can say that for all genders \(g\), \(g\) is a unary function from the gender self-descriptions, i.e., \AgdaPostulate{String} terms, to the unit interval, with \(0\) indicating complete non-identification with a given description and \(1\) indicating total\footnote{Total identification with multiple distinct gender self-descriptions is possible.} identification with a given description.  As Dear Reader may have expected, the other interval values are assigned linearly.  With this idea in mind, one can define a type \AgdaRecord{Gender}, in which \AgdaField{Gender.identificationExtent} serves as the container for these fancy ``\(g\)'' functions, as follows:
 
 \begin{code}
@@ -575,7 +668,7 @@ In contrast with \AgdaFunction{Attempt7.Gender}, which does not indicate the ext
       identificationExtent : String → I
 \end{code}
 
-\subparagraph{A More Formal Semantic Definition of \AgdaRecord{Gender}}
+\begin{Section}{A More Formal Semantic Definition of \AgdaRecord{Gender}}
 Possibly a bit more formally, one can say that for a given \AgdaRecord{Gender} term \AgdaBound{g} and a given gender self-description, i.e., string, \AgdaBound{s}, \AgdaBound{g} \AgdaBound{s} is the extent to which a \gls{gEntity} whose gender is \AgdaBound{g}\footnote{This phrasing is a bit informal.  Formally, one can say that for all \glspl{gEntity} \(x\) and genders \AgdaBound{g}, \AgdaBound{g} is the gender of \(x\) if and only if in all universe contexts, the following condition holds: \(x\) completely identifies with \AgdaBound{g}, and \AgdaBound{g} is the \emph{only} gender with which \(x\) identifies.} identifies with \AgdaBound{s}.  Accordingly, for all \AgdaRecord{Gender} terms \AgdaBound{g} and gender self-descriptions, i.e., strings, \AgdaBound{s}, the following conditions apply:
 
 \begin{enumerate}
@@ -583,38 +676,44 @@ Possibly a bit more formally, one can say that for a given \AgdaRecord{Gender} t
   \item \AgdaField{Gender.identificationExtent} \AgdaBound{g} \AgdaBound{s} is \AgdaFunction{i1} if and only if for all \glspl{gEntity} \(x\), \AgdaBound{g} is the gender of \(x\) if and only if \(x\) completely identifies with \AgdaBound{s}.
   \item Other values are assigned linearly.
 \end{enumerate}
+\end{Section}
+\end{Section}
 
-\paragraph{The Gender Identity Type}
+\begin{Section}{The Gender Identity Type}
 Again, pretty much exactly like in \fref{sec:gender6definition} --- actually, the definition is so similar that the author will, \emph{again}, not even bother with writing another semantic definition ---, one can define a gender identity type \AgdaFunction{AbstractGender} as follows:
 
 \begin{code}
   AbstractGender : {u : Level} → Set u → Set u
   AbstractGender UC = UC → Gender → I
 \end{code}
+\end{Section}
+\end{Section}
 
-\subsection{Some Examples}
+\begin{Section}{Some Examples}
 
 \begin{code}
   module SpecificInstance where
 \end{code}
 
-\paragraph{The Agender Identity}\label{sec:gender8exampleIdentityAgender}
+\begin{Section}{The Agender Identity}\label{sec:gender8exampleIdentityAgender}
 The basic agender gender-identity is simple in being materially equivalent to never identifying with any gender.  A bit more formally, one can say that for all \glspl{gEntity} \(x\), \(x\) is agender if and only if for all genders \(g\) and universe contexts \(U\), in \(U\), \(x\) does not at all identify with \(g\).  One who remembers that \AgdaFunction{i0} is used to represent complete non-identification can translate that more formal definition like so:
 
 \begin{code}
     agender : {u : Level} → (UC : Set u) → AbstractGender UC
     agender U u g = i0
 \end{code}
+\end{Section}
 
-\paragraph{The Basic Pangender-Identity}\label{sec:gender8exampleIdentityPangenderBasic}
+\begin{Section}{The Basic Pangender-Identity}\label{sec:gender8exampleIdentityPangenderBasic}
 Where \(P\) denotes the pangender gender-identity which is particularly basic, \(P\) is such that for all \glspl{gEntity} \(x\), \(P\) is the gender identity of \(x\) if and only if in every appropriate universe-context, \(P\) completely identifies with every gender.  Much like \AgdaFunction{agender} of \fref{sec:gender8exampleIdentityAgender}, translating this representation is pretty easy.  Accordingly, the author has structurally defined \AgdaFunction{basicPangender}, which corresponds to \(P\), as follows:
 
 \begin{code}
     basicPangender : {u : Level} → (UC : Set u) → AbstractGender UC
     basicPangender U u g = i1
 \end{code}
+\end{Section}
 
-\paragraph{The Male Identity}\label{sec:gender8exampleIdentityMale}
+\begin{Section}{The Male Identity}\label{sec:gender8exampleIdentityMale}
 Formally, one can say that the male gender-identity, i.e., ``abstract gender'', can be represented as a function which, for all relevant universe contexts, returns one or zero if the input gender is the male gender or is not the male gender, respectively.  Listing all self-descriptions of the male gender is beyond the scope of this paper,\footnote{Such listing is beyond the scope \emph{for now}.} so the author has chosen to use a \AgdaKeyword{module}-based approach.  Basically, there exists a type function \AgdaRecord{MaleIdentity.Correct} such that for any given gender identity \AgdaBound{G}, universe level \AgdaBound{u}, and \AgdaBound{u}-level-universe-context type \AgdaBound{UC}, \AgdaRecord{MaleIdentity.Correct} \AgdaBound{UC} \AgdaBound{male} \AgdaBound{G} is populated if and only if \AgdaBound{G} is the male gender-identity, where \AgdaBound{male} is the male gender.  \AgdaRecord{MaleIdentity.Correct} is defined as follows:
 
 \begin{code}
@@ -627,8 +726,9 @@ Formally, one can say that the male gender-identity, i.e., ``abstract gender'', 
       Correct maleIdentity = ((uc : UC) → IEq i1 (maleIdentity uc male))
                            × (∀ g uc → g ≢ male → IEq i0 (maleIdentity uc g))
 \end{code}
+\end{Section}
 
-\paragraph{The Female Identity}\label{sec:gender8exampleIdentityFemale}
+\begin{Section}{The Female Identity}\label{sec:gender8exampleIdentityFemale}
 \AgdaModule{FemaleIdentity} is pretty much just \AgdaModule{MaleIdentity}, but ``female'' has replaced ``male''.  Once again, this module is so similar that the author recommends just reading the stuff in \fref{sec:gender8exampleIdentityMale}.
 
 \begin{code}
@@ -641,8 +741,9 @@ Formally, one can say that the male gender-identity, i.e., ``abstract gender'', 
       Correct femaleIdentity = ((uc : UC) → IEq i1 (femaleIdentity uc female))
                              × (∀ g uc → g ≢ female → IEq i0 (femaleIdentity uc g))
 \end{code}
+\end{Section}
 
-\paragraph{The Generic One-Gender Identity}
+\begin{Section}{The Generic One-Gender Identity}
 As indicated by the sarcastic not-a-sematic-definition in \fref{sec:gender8exampleIdentityFemale}, \AgdaFunction{AbstractGender}'s representations of the female gender-identity and the male gender-identity are very similar --- in fact, only the names of the variables differ.  Accordingly, one, e.g., the author, can abstract the variable names to indicate that \AgdaFunction{Correct} can hold proofs regarding \emph{any} appropriate gender-identity's being a one-gender gender-identity.  Accordingly still, the author has defined \AgdaFunction{OneGenderIdentity} as follows:
 
 \begin{code}
@@ -651,8 +752,9 @@ As indicated by the sarcastic not-a-sematic-definition in \fref{sec:gender8examp
       OneGenderIdentity g G =
         ∀ uc → (IEq i1 (G uc g)) × (∀ h → h ≢ g → IEq i0 (G uc h))
 \end{code}
+\end{Section}
 
-\paragraph{Genderfluid Verification}
+\begin{Section}{Genderfluid Verification}
 If\footnote{This ``if'' structuring replaced an ``assuming that'' structuring because the author thought that the ``if'' sentence would be more easily parsed.  The ``if'' still implies assumption.} \(G\) is a gender identity such that for all \glspl{gEntity} \(x\), if \(G\) is the gender identity of \(x\), then \(x\) totally identifies with gender \(g_1\), \(g_2\), and \(g_3\) at contexts \(C_1\), \(C_2\), and \(C_3\), respectively, but does not identify with any gender in any context \(c\) for \(C\ c\), then one can write a set of constraints which describe \(G\) like so:
 
 \begin{code}
@@ -670,8 +772,9 @@ If\footnote{This ``if'' structuring replaced an ``assuming that'' structuring be
                   × IEq i1 (G c3 g3)
                   × ((c : UC) → C c → (g : Gender) → IEq i0 (G c g))
 \end{code}
+\end{Section}
 
-\paragraph{Genderfluid Verification 2}
+\begin{Section}{Genderfluid Verification 2}
 One can do a bit of abstraction on the previous try, yielding the following result:
 
 \begin{code}
@@ -686,8 +789,9 @@ One can do a bit of abstraction on the previous try, yielding the following resu
         Correct G = All (λ (c , g) → IEq i1 (G c g)) l
                   × (∀ g c → C c → IEq i0 (G c g))
 \end{code}
+\end{Section}
 
-\paragraph{A More Generic Pangender Type}
+\begin{Section}{A More Generic Pangender Type}
 In contrast with the pangender term of \fref{sec:gender8exampleIdentityPangenderBasic}, one can say that for any given \glspl{gEntity} \(x\), the gender identity of \(x\) is a pangender identity if and only if for any universe context \(u\) and gender \(g\), in \(u\), the extent to which \(x\) identifies with \(g\) is nonzero.  Using Agda, one can write a more succinct definition like so:
 
 \begin{code}
@@ -695,7 +799,7 @@ In contrast with the pangender term of \fref{sec:gender8exampleIdentityPangender
     Pangender G = ∀ g c → ¬ IEq i0 (G g c)
 \end{code}
 
-\subparagraph{Proof of \AgdaFunction{basicPangender}'s Pangender Nature}
+\begin{Section}{Proof of \AgdaFunction{basicPangender}'s Pangender Nature}
 Also, using \AgdaFunction{Pangender}, one can prove that \AgdaFunction{basicPangender} terms \emph{do} actually represent pangender identities.  One such proof is as follows:
 
 \begin{code}
@@ -703,20 +807,26 @@ Also, using \AgdaFunction{Pangender}, one can prove that \AgdaFunction{basicPang
       {u : Level} → {UC : Set u} → Pangender (basicPangender UC)
     basicPangender-is-pangender-identity g c (IEq.Structural ())
 \end{code}
+\end{Section}
+\end{Section}
+\end{Section}
 
-\subsection{Advantages}
+\begin{Section}{Advantages}
 Some advantages of this approach are as follows:
 
 \begin{enumerate}
   \item This approach \emph{does} solve that identification extent problem which was described in \fref{enum:gender7flawExtent}.\label{enum:gender8advantageExtent}
 \end{enumerate}
+\end{Section}
 
-\subsection{Flaws}
+\begin{Section}{Flaws}
 Some flaws of this approach are as follows:
 
 \begin{itemize}
   \item This approach does not explicitly distinguish between complete non-identification and dysphoria-inducing non-identification.\label{enum:gender8flawDysphoria}
 \end{itemize}
+\end{Section}
+\end{Section}
 
 \printbibliography{}
 
